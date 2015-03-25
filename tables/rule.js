@@ -1,6 +1,7 @@
 "use strict";
 
 module.exports = {
+    version: 1,
     TableName: "rule",
     AttributeDefinitions: [
         { AttributeName: "id", AttributeType: "S" }/*,

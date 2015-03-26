@@ -18,7 +18,6 @@
   "homepage": "https://github.com/epha/model",
   "dependencies": {
     "aws-sdk": "^2.1.19",
-    "dynamo": "git://github.com/epha/dynamo",
-    "when": "^3.7.2"
+    "dynamodb-data-types": "^2.0.1"
   }
 }

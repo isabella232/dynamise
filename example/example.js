@@ -13,7 +13,6 @@ db.syncTables(require("../tables/"), function(err) {
     if(err) {
         throw err;
     }
-
 });
 
 

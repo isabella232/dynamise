@@ -1,21 +1,34 @@
 "use strict";
 
-var ephaDb = require("../lib");
+var ephaDb = require("../lib"),
+    tables = require("../tables/"),
+    schemas = require("../schemas");
 
-//add connection string here
 var db = ephaDb("http://localhost:8000");
 
-db.useSchemas(require("../schemas"));
+db.useSchemas(schemas);
 
-//create or update Tables
-db.syncTables(require("../tables/"), function(err) {
+db.syncTables(tables, function (err) {
 
-    if(err) {
+    //now you can use your client!
+    if (err) {
         throw err;
     }
+
+    db.table("user").create({
+        id: "u1",
+        email: "sepp@epha.com",
+        firstName: "Sepp"
+    }).done(function (err) {
+
+        if (err) {
+            throw err;
+        }
+
+        console.log("Saved!");
+    });
+
+
+
 });
 
-
-
-
-//now you can use your client!

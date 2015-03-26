@@ -1,7 +1,6 @@
 "use strict";
 
 module.exports = {
-    version: 1,
     TableName: "subject",
     AttributeDefinitions: [
         { AttributeName: "id", AttributeType: "S" }/*,

@@ -18,6 +18,8 @@ function expectValidTableDescription(table, tableName) {
 
 describe("Table", function () {
 
+    var client;
+
     this.timeout(5000);
 
     before(function () {
@@ -27,17 +29,21 @@ describe("Table", function () {
                 endpoint: "http://localhost:8000"
             }
         });
-
-        db.setTables({
-            test: testTable
-        });
     });
 
     beforeEach(function () {
-        return db("local")
+
+        client = db("local");
+
+        //reset tables
+        db.setTables({
+            test: testTable
+        });
+
+        return client
             .delete("test")
             //we don't care if it did not exist
-            .catch(function() {
+            .catch(function () {
                 return true;
             });
     });
@@ -48,7 +54,7 @@ describe("Table", function () {
 
             it("should return a 'ResourceNotFoundException'", function () {
 
-                return db("test").delete("NonExisting")
+                return client.delete("NonExisting")
                     .catch(function (err) {
                         expectTableNonExistingError(err);
                     });
@@ -59,12 +65,10 @@ describe("Table", function () {
 
             it("should delete the table and return table data", function () {
 
-                var client = db("local");
-
                 return client
                     .create("test")
-                    .then(function() {
-                      return client.delete("test");
+                    .then(function () {
+                        return client.delete("test");
                     })
                     .then(function (res) {
                         expect(res).to.be.an("object");
@@ -78,8 +82,6 @@ describe("Table", function () {
 
         it("should create a table if passed a valid object", function () {
 
-            var client = db("local");
-
             return client
                 .create(testTable)
                 .then(function (res) {
@@ -87,9 +89,7 @@ describe("Table", function () {
                 });
         });
 
-        it("should create a table if passed a table name and table has been registered before", function() {
-
-            var client = db("local");
+        it("should create a table if passed a table name and table has been registered before", function () {
 
             return client
                 .create("test")
@@ -104,8 +104,6 @@ describe("Table", function () {
 
         it("should fail if table does not exist", function () {
 
-            var client = db("local");
-
             return client
                 .status("test")
                 .catch(function (err) {
@@ -115,40 +113,71 @@ describe("Table", function () {
 
         it("should return a subset of table description", function () {
 
-            var client = db("local");
-
             return client
                 .create("test")
-                .then(function() {
+                .then(function () {
                     return client.status("test");
                 })
                 .then(function (status) {
-                   expect(status).to.have.keys("TableSizeBytes", "TableStatus", "ItemCount", "outdated");
+                    expect(status).to.have.keys("TableSizeBytes", "TableStatus", "ItemCount");
                 });
         });
 
-        /*
-        it("should return a table description for an existing table if passed a valid string", function () {
 
-            return db.createTable(dummyTables.TestTable)
+        //TODO not working with simple diff https://github.com/epha/model/issues/2
+        it.skip("should return outdated = false if the local table definition and table description are equal", function () {
+
+            return client
+                .create("test")
                 .then(function () {
-                    return db.describeTable(dummyTables.TestTable.TableName);
+                    return client.status("test");
                 })
-                .then(function (res) {
-                    expectValidTableDescription(res.Table, dummyTables.TestTable.TableName);
+                .then(function (status) {
+                    expect(status.outdated).to.eql(false);
                 });
         });
 
-        it("should return a table description for an existing table if passed a valid object", function () {
+        it.skip("should return outdated = true if the local table definition and table description differ", function () {
 
-            return db.createTable(dummyTables.TestTable)
+            db.setTables({
+                test: {
+                    TableName: "test",
+                    AttributeDefinitions: [
+                        {AttributeName: "id", AttributeType: "S"}
+                    ],
+                    KeySchema: [
+                        {AttributeName: "id", KeyType: "HASH"}
+                    ],
+                    ProvisionedThroughput: {
+                        ReadCapacityUnits: 10,
+                        WriteCapacityUnits: 10
+                    },
+                    GlobalSecondaryIndexes: [
+                        {
+                            IndexName: "idIndex",
+                            KeySchema: [
+                                {AttributeName: "id", KeyType: "HASH"}
+                            ],
+                            Projection: {
+                                ProjectionType: "ALL"
+                            },
+                            ProvisionedThroughput: {
+                                ReadCapacityUnits: 20,
+                                WriteCapacityUnits: 30
+                            }
+                        }
+                    ]
+                }
+            });
+
+            return client
+                .create(testTable)
                 .then(function () {
-                    return db.describeTable({TableName: dummyTables.TestTable.TableName});
+                    return client.status("test");
                 })
-                .then(function (res) {
-                    expectValidTableDescription(res.Table, dummyTables.TestTable.TableName);
+                .then(function (status) {
+                    expect(status.outdated).to.eql(true);
                 });
         });
-        */
     });
 });

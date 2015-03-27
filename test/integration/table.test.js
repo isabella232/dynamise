@@ -80,6 +80,19 @@ describe("Table", function () {
 
     describe("#create", function () {
 
+        it("should fail if table already exists", function() {
+
+                return client
+                    .create("test")
+                    .then(function() {
+                        return client.create("test");
+                    })
+                    .catch(function (err) {
+                        expect(err).to.be.instanceOf(Error);
+                        expect(err.code).to.eql("ResourceInUseException");
+                    });
+        });
+
         it("should create a table if passed a valid object", function () {
 
             return client

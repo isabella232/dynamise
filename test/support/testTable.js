@@ -4,8 +4,7 @@ module.exports = {
     TableName: "test",
     AttributeDefinitions: [
         { AttributeName: "id", AttributeType: "S" },
-        { AttributeName: "email", AttributeType: "S" },
-        { AttributeName: "password", AttributeType: "S" }
+        { AttributeName: "email", AttributeType: "S" }
     ],
     KeySchema: [
         { AttributeName: "id", KeyType: "HASH" }

@@ -1,31 +1,18 @@
 "use strict";
 
-var db = require("../lib"),
-    tables = require("../tables/"),
-    schemas = require("../schemas");
+var db = require("../lib");
 
 //set common configuration to simplify api calls
-db.setConnections({
-    local: {
-        endpoint: "http://localhost:8000"
-    }
+db("local").set(require("../tables/"));
+
+var user = db("local").recreate("user");
+
+user.then(function(data) {
+  console.log(data);
+}).catch(function(err) {
+  console.log(err);
 });
-
-db.setTables(tables);
-db.setSchemas(schemas);
-
-//db("local").create("user"); //or .create(tables.user) //-> an object with table definition
-
 /*
- db("local").read("user")
- .then(function (res) {
- console.log(res);
- })
- .catch(function (err) {
- console.log(err, err.stack);
- });
- */
-
 //check if table exists (maybe .exists() method later on?)
 db("local").status("user")
     .catch(function (err) {
@@ -49,3 +36,5 @@ db("local").status("user")
         console.log(err.message, err.stack);
     });
 
+
+ */

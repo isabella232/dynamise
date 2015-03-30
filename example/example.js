@@ -3,14 +3,14 @@
 var db = require("../lib");
 
 //set common configuration to simplify api calls
-db("local").set(require("../tables/"));
+db("west-1").set(require("../tables/"));
 
-var user = db("local").recreate("user");
+var user = db("west-1").recreate("TestTable");
 
 user.then(function(data) {
   console.log(data);
 }).catch(function(err) {
-  console.log(err);
+  console.log(err,err.stack);
 });
 /*
 //check if table exists (maybe .exists() method later on?)

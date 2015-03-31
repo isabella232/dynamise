@@ -8,3 +8,7 @@ exports.role = require("./role");
 exports.rule = require("./rule");
 exports.policy = require("./policy");
 exports.TestTable = require("./TestTable");
+
+exports.Pubmed = require("./Pubmed");
+exports.Atc = require("./Atc");
+exports.Matrix = require("./Matrix");

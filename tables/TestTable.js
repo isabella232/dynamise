@@ -11,7 +11,7 @@ module.exports = {
     { AttributeName: 'FileId', KeyType: 'RANGE'}
   ],
   ProvisionedThroughput: { // required
-    ReadCapacityUnits: 10, // required
+    ReadCapacityUnits: 11, // required
     WriteCapacityUnits: 10 // required
   },
   TableName: 'TestTable', // required

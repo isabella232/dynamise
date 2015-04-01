@@ -1,10 +1,13 @@
 var db = require("../lib");
 
-var test = db("west-1");
+var test = db("local");
 
-test.table("TestTable").create({UserId:"1", FileId:"2"})
+test.recreate("TestTable")
 .then(function(data) {
-  return test.table("TestTable").create({UserId:"1", FileId:"4"})
+  return test.table("TestTable").create({UserId:"1", FileId:"2"})
+})
+.then(function(data) {
+  return test.table("TestTable").create({UserId:"1", FileId:"3"})
 })
 .then(function(data) {
   

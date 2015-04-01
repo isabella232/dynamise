@@ -2,8 +2,8 @@
 
 var expect = require("chai").expect;
 
-var db = require("../../lib/"),
-    testTable = require("../support/testTable");
+var db = require("../../lib/");
+var testTable = require("../support/testTable");
 
 function expectTableNonExistingError(err) {
     expect(err).to.be.instanceof(Error);
@@ -23,25 +23,15 @@ describe("Table", function () {
     this.timeout(5000);
 
     before(function () {
-
-        db.setConnections({
-            local: {
-                endpoint: "http://localhost:8000"
-            }
-        });
+      db("local").set({test:testTable});
     });
 
     beforeEach(function () {
 
         client = db("local");
 
-        //reset tables
-        db.setTables({
-            test: testTable
-        });
-
         return client
-            .delete("test")
+            .delete(testTable)
             //we don't care if it did not exist
             .catch(function () {
                 return true;
@@ -66,9 +56,9 @@ describe("Table", function () {
             it("should delete the table and return table data", function () {
 
                 return client
-                    .create("test")
-                    .then(function () {
-                        return client.delete("test");
+                    .create(testTable)
+                    .then(function (data) {
+                        return client.delete(testTable);
                     })
                     .then(function (res) {
                         expect(res).to.be.an("object");
@@ -83,9 +73,9 @@ describe("Table", function () {
         it("should fail if table already exists", function() {
 
                 return client
-                    .create("test")
+                    .create(testTable)
                     .then(function() {
-                        return client.create("test");
+                        return client.create(testTable);
                     })
                     .catch(function (err) {
                         expect(err).to.be.instanceOf(Error);
@@ -105,7 +95,7 @@ describe("Table", function () {
         it("should create a table if passed a table name and table has been registered before", function () {
 
             return client
-                .create("test")
+                .create(testTable)
                 .then(function (res) {
                     expectValidTableDescription(res.TableDescription, "test");
                 });
@@ -118,7 +108,7 @@ describe("Table", function () {
         it("should fail if table does not exist", function () {
 
             return client
-                .status("test")
+                .status(testTable)
                 .catch(function (err) {
                     expectTableNonExistingError(err);
                 });
@@ -127,32 +117,32 @@ describe("Table", function () {
         it("should return a subset of table description", function () {
 
             return client
-                .create("test")
+                .create(testTable)
                 .then(function () {
-                    return client.status("test");
+                    return client.status(testTable);
                 })
                 .then(function (status) {
-                    expect(status).to.have.keys("TableSizeBytes", "TableStatus", "ItemCount");
+                    expect(status).to.have.keys("TableSizeBytes", "TableStatus", "ItemCount","Upgradable");
                 });
         });
 
 
         //TODO not working with simple diff https://github.com/epha/model/issues/2
-        it.skip("should return outdated = false if the local table definition and table description are equal", function () {
+        it("should return upgradable = false if the local table definition and table description are equal", function () {
 
             return client
-                .create("test")
-                .then(function () {
-                    return client.status("test");
+                .create(testTable)
+                .then(function () {           
+                    return client.status(testTable);
                 })
                 .then(function (status) {
-                    expect(status.outdated).to.eql(false);
+                    expect(status.Upgradable).to.eql(false);
                 });
         });
 
-        it.skip("should return outdated = true if the local table definition and table description differ", function () {
+        it("should return upgradable = true if the local table definition and table description differ", function () {
 
-            db.setTables({
+            db("local").set({
                 test: {
                     TableName: "test",
                     AttributeDefinitions: [
@@ -162,7 +152,8 @@ describe("Table", function () {
                         {AttributeName: "id", KeyType: "HASH"}
                     ],
                     ProvisionedThroughput: {
-                        ReadCapacityUnits: 10,
+                        // ONLY THING changed
+                        ReadCapacityUnits: 12,
                         WriteCapacityUnits: 10
                     },
                     GlobalSecondaryIndexes: [
@@ -189,7 +180,7 @@ describe("Table", function () {
                     return client.status("test");
                 })
                 .then(function (status) {
-                    expect(status.outdated).to.eql(true);
+                    expect(status.Upgradable).to.eql(true);
                 });
         });
     });

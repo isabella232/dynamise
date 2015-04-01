@@ -1,0 +1,1 @@
+http://docs.aws.amazon.com/amazondynamodb/latest/APIReference

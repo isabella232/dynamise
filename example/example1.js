@@ -22,7 +22,7 @@ test.recreate("TestTable")
 })
 .then(function(data) {
   console.log("TestTable ItemCount", data.ItemCount);
-  return test.table("TestTable").read({ UserId:"1", FileId:"2"});
+  return test.table("TestTable").read("1", "2");
 })
 .then(function(data) {
   console.log("Item", data );

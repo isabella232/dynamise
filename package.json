@@ -1,10 +1,10 @@
 {
   "name": "epha-model",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "epha model",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/*"
   },
   "repository": {
     "type": "git",

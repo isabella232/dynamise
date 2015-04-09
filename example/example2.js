@@ -30,7 +30,7 @@ test.recreate("TestTable")
     }
   };
   
-  return test.table("TestTable").query(params);
+  return test.table("TestTable").query(params).exec();
 })
 .then(function(data) {
   console.log("query data",data);

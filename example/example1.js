@@ -39,10 +39,10 @@ test.recreate("TestTable")
   });
 })
 .catch(function(err) {
-  if( err.code == "ResourceNotFoundException") {
+  if( err.code === "ResourceNotFoundException") {
     console.log("TestTable is gone");
   }
   else {
-    console.log(err);
+    console.log(err, err.stack);
   }
 });

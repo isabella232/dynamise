@@ -117,7 +117,7 @@ describe("Table", function () {
 
         return client.table("test").upload(data)
           .then(function () {
-            Promise.all(expectedData.map(function (element) {
+            return Promise.all(expectedData.map(function (element) {
               return client.table("test").read(element.id, element.email)
                 .then(function (res) {
                   expect(res).not.eql(undefined);
@@ -134,13 +134,14 @@ describe("Table", function () {
 
         var expectedData = require("../../support/testData.json"),
           jsonStringStream = fs.createReadStream(path.resolve(__dirname, "../../support/testData.json")),
-          jsonStream = JSONStream.parse();
+          jsonStream = JSONStream.parse("*");
 
         jsonStringStream.pipe(jsonStream);
 
         return client.table("test").upload(jsonStream)
           .then(function () {
-            Promise.all(expectedData.map(function (element) {
+
+            return Promise.all(expectedData.map(function (element) {
               return client.table("test").read(element.id, element.email)
                 .then(function (res) {
                   expect(res).not.eql(undefined);

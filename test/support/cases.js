@@ -7,3 +7,5 @@ create subject person:2 role:owner domain:person:2
 create subject person:2 role:arzt domain:person:2
 create subject person:1 role:patient domain:person:2
 create subject person:2 role:arzt domain:person:1
+
+person:1 query role domain

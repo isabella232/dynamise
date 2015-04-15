@@ -14,10 +14,8 @@ test.recreate("TestTable")
   .then(function(data) {
 
     return test.table("TestTable")
-      .query()
-      .where("UserId").equals(1)
-      .where("FileId").between(3, 4)
-      .exec();
+      .findAll()
+      .where("UserId").equals("1");
   })
   .then(function(data) {
     console.log("query data",data);

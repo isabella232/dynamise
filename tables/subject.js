@@ -1,28 +1,42 @@
 "use strict";
 
+//person:id,role:id,domain:id 
 module.exports = {
-    TableName: "subject",
+    TableName: "Subject",
     AttributeDefinitions: [
-        { AttributeName: "id", AttributeType: "S" }/*,
-        { AttributeName: "domain", AttributeType: "S" },
-        { AttributeName: "user", AttributeType: "S" },
+        { AttributeName: "person", AttributeType: "S" },
         { AttributeName: "role", AttributeType: "S" },
-        { AttributeName: "firstname", AttributeType: "S" },
-        { AttributeName: "lastname", AttributeType: "S" },
-        { AttributeName: "locked", AttributeType: "B" }*/
+        { AttributeName: "domain", AttributeType: "S" }
     ],
+    // Alle meine Rollen
     KeySchema: [
-        { AttributeName: "id", KeyType: "HASH" }
+        { AttributeName: "person", KeyType: "HASH" }
+        { AttributeName: "role", KeyType: "RANGE" }
     ],
     ProvisionedThroughput: {
         ReadCapacityUnits: 10,
         WriteCapacityUnits: 10
     },
     GlobalSecondaryIndexes: [
-        {
-            IndexName: "subjectIdIndex",
+        {// Alle Patienten in meiner Praxis
+            IndexName: "DomainRoleIndex",
             KeySchema: [
-                { AttributeName: "id", KeyType: "HASH" } // Domain#User#Role
+                { AttributeName: "domain", KeyType: "HASH" } // Domain#User#Role
+                { AttributeName: "role", KeyType: "RANGE" } // Domain#User#Role
+            ],
+            Projection: {
+                ProjectionType: "ALL"
+            },
+            ProvisionedThroughput: {
+                ReadCapacityUnits: 10,
+                WriteCapacityUnits: 10
+            }
+        },
+        {// Alle meine Patienten in meiner Domaine
+            IndexName: "RoleDomainIndex",
+            KeySchema: [
+                { AttributeName: "role", KeyType: "HASH" } // Domain#User#Role
+                { AttributeName: "domain", KeyType: "RANGE" } // Domain#User#Role
             ],
             Projection: {
                 ProjectionType: "ALL"
@@ -32,12 +46,6 @@ module.exports = {
                 WriteCapacityUnits: 10
             }
         }
-        // we have to add additional Indexes
-        // each users of a domain
-        // each patients of a domain
-        // each doctors of a domain
-        // each doctor of a domain
-        // each domains of an user
-        // ...
+
     ]
 };

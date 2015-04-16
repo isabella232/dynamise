@@ -1,11 +1,20 @@
-create person 1
-create domain person:1
-create subject person:1 role:owner domain:person:1
-create person 2
-create domain person:2
-create subject person:2 role:owner domain:person:2
-create subject person:2 role:arzt domain:person:2
-create subject person:1 role:patient domain:person:2
-create subject person:2 role:arzt domain:person:1
+// Subject
+// acountId roleTypeId domain
+// d2 USZ
+// d1 PRIVAT
+person:p1 OWNER:domain:d1 d1
+person:p1 ARZT:domain:d2 d2
+person:p2 PATIENT:domain:d2 d2
+person:p2 PATIENT:group:g1 d2
 
-person:1 query role domain
+// Anmeldung
+p1 role d1
+
+d2 beginsWith( PATIENT )
+person:p2 PATIENT:domain:d2 d2
+person:p2 PATIENT:group:g1  d2
+
+// GROUP
+g1 Privat PATIENT
+g2 Admin  WRITE, OWNER
+g3 Deployer WRITE

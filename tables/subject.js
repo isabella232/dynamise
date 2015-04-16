@@ -4,14 +4,14 @@
 module.exports = {
     TableName: "Subject",
     AttributeDefinitions: [
-        { AttributeName: "person", AttributeType: "S" },
-        { AttributeName: "role", AttributeType: "S" },
+        { AttributeName: "typeId", AttributeType: "S" },
+        { AttributeName: "roleTypeId", AttributeType: "S" },
         { AttributeName: "domain", AttributeType: "S" }
     ],
     // Alle meine Rollen
     KeySchema: [
-        { AttributeName: "person", KeyType: "HASH" }
-        { AttributeName: "role", KeyType: "RANGE" }
+        { AttributeName: "typeId", KeyType: "HASH" }
+        { AttributeName: "roleTypeId", KeyType: "RANGE" }
     ],
     ProvisionedThroughput: {
         ReadCapacityUnits: 10,
@@ -19,24 +19,10 @@ module.exports = {
     },
     GlobalSecondaryIndexes: [
         {// Alle Patienten in meiner Praxis
-            IndexName: "DomainRoleIndex",
+            IndexName: "DomainRoleTypeIdIndex",
             KeySchema: [
-                { AttributeName: "domain", KeyType: "HASH" } // Domain#User#Role
-                { AttributeName: "role", KeyType: "RANGE" } // Domain#User#Role
-            ],
-            Projection: {
-                ProjectionType: "ALL"
-            },
-            ProvisionedThroughput: {
-                ReadCapacityUnits: 10,
-                WriteCapacityUnits: 10
-            }
-        },
-        {// Alle meine Patienten in meiner Domaine
-            IndexName: "RoleDomainIndex",
-            KeySchema: [
-                { AttributeName: "role", KeyType: "HASH" } // Domain#User#Role
-                { AttributeName: "domain", KeyType: "RANGE" } // Domain#User#Role
+                { AttributeName: "domain", KeyType: "HASH" }
+                { AttributeName: "roleTypeId", KeyType: "RANGE" } 
             ],
             Projection: {
                 ProjectionType: "ALL"
@@ -46,6 +32,5 @@ module.exports = {
                 WriteCapacityUnits: 10
             }
         }
-
     ]
 };

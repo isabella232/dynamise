@@ -10,7 +10,7 @@ module.exports = {
     ],
     // Alle meine Rollen
     KeySchema: [
-        { AttributeName: "typeId", KeyType: "HASH" }
+        { AttributeName: "typeId", KeyType: "HASH" },
         { AttributeName: "roleTypeId", KeyType: "RANGE" }
     ],
     ProvisionedThroughput: {
@@ -21,7 +21,7 @@ module.exports = {
         {// Alle Patienten in meiner Praxis
             IndexName: "DomainRoleTypeIdIndex",
             KeySchema: [
-                { AttributeName: "domain", KeyType: "HASH" }
+                { AttributeName: "domain", KeyType: "HASH" },
                 { AttributeName: "roleTypeId", KeyType: "RANGE" } 
             ],
             Projection: {

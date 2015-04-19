@@ -13,13 +13,22 @@ test.recreate("Example")
   })
   .then(function(data) {
 
-    return test.table("Example")
-      .scanAll({Limit: 1});
+    var params = {
+      RequestItems: {
+        Example:{
+          Keys:[
+            {UserId:"1", FileId:"2"},
+            {UserId:"1", FileId:"3"}
+          ]
+        }
+      }
+    };
+  
+    return test.multiRead(params);
   })
   .then(function(data) {
-    console.log("scan data",data);
+    console.log("multiRead",data);
   })
   .catch(function(err) {
     console.log(err, err.stack);
   });
-

@@ -21,7 +21,7 @@ StringifyStream.prototype._transform = function(obj, encoding, cb){
 var stringifyStream = new StringifyStream();
 
 //convert from objects to strings
-stringifyStream.pipe(process.stdout);
+stringifyStream.pipe(process.stdout); 
 
 var db = require("../lib");
 

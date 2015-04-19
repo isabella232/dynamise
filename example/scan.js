@@ -4,16 +4,16 @@ var db = require("../lib");
 
 var test = db("local");
 
-test.recreate("TestTable")
+test.recreate("Example")
   .then(function(data) {
-    return test.table("TestTable").create({UserId:"1", FileId:"2"});
+    return test.table("Example").create({UserId:"1", FileId:"2"});
   })
   .then(function(data) {
-    return test.table("TestTable").create({UserId:"1", FileId:"3"});
+    return test.table("Example").create({UserId:"1", FileId:"3"});
   })
   .then(function(data) {
 
-    return test.table("TestTable")
+    return test.table("Example")
       .scan({Limit:1})
       .exec();
   })

@@ -4,6 +4,10 @@ var db = require("../lib");
 
 var client = db("local");
 
-client.recreate("Example").then(function(data) {
-  console.log("ListTables",data);
-})
+client.listTables()
+  .then(function (data) {
+    console.log("List Tables", data);
+  })
+  .catch(function (err) {
+    throw err;
+  });

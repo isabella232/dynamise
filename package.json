@@ -4,7 +4,7 @@
   "description": "epha model",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "mocha test/*"
+    "test": "mocha --recursive test/*"
   },
   "repository": {
     "type": "git",

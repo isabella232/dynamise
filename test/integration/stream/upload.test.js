@@ -58,7 +58,7 @@ describe("Table", function () {
 
         var expectedData = _.clone(data, true);
 
-        var upload = client.table("test").upload();
+        var upload = client.table("test").createUploadStream();
 
         upload.on("finish", function () {
 
@@ -102,11 +102,11 @@ describe("Table", function () {
 
     describe("with promise syntax passing an array", function () {
 
-      it("should create all items passed in the array using a stream internally", function () {
+      it("should create all items passed in the array using multiWrite logic", function () {
 
         var data = [];
 
-        for (var i = 0; i < 123; i++) {
+        for (var i = 0; i < 100; i++) {
           data.push({
             id: i.toString(),
             email: i + "@epha.com"
@@ -115,39 +115,21 @@ describe("Table", function () {
 
         var expectedData = _.clone(data, true);
 
-        return client.table("test").upload(data)
+        return client.recreate("test")
+          .then(function () {
+            return client.active("test");
+          })
+          .then(function () {
+            return client.table("test").upload(data);
+          })
           .then(function () {
             return Promise.all(expectedData.map(function (element) {
-              return client.table("test").read(element.id, element.email)
+              return client.table("test").read(element.id, element.mail)
                 .then(function (res) {
                   expect(res).not.eql(undefined);
                   expect(expectedData).contains(res);
-                });
-            }));
-          });
-      });
-    });
-
-    describe("with promise syntax passing a readable stream", function () {
-
-      it("should create all items of the readable stream", function () {
-
-        var expectedData = require("../../support/testData.json"),
-          jsonStringStream = fs.createReadStream(path.resolve(__dirname, "../../support/testData.json")),
-          jsonStream = JSONStream.parse("*");
-
-        jsonStringStream.pipe(jsonStream);
-
-        return client.table("test").upload(jsonStream)
-          .then(function () {
-
-            return Promise.all(expectedData.map(function (element) {
-              return client.table("test").read(element.id, element.email)
-                .then(function (res) {
-                  expect(res).not.eql(undefined);
-                  expect(expectedData).contains(res);
-                });
-            }));
+                })
+            }))
           });
       });
     });

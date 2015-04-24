@@ -12,7 +12,7 @@ var client = db("local");
 ####client.listTables(params)
 ####client.create("tableName")
 ####client.read("tableName")
-####client.delete("tableName")
+####client.remove("tableName")
 ####client.status("tableName")
 Returns data object
 ```javascript
@@ -53,7 +53,7 @@ downloadStream.pipe(client.table("test").upload())
 ```
 
 ####client.table("tableName").download(writableStream)
-####client.table("tableName").delete(hash,range)
+####client.table("tableName").remove(hash,range)
 ####client.table("tableName").find(params)
 ####client.table("tableName").findAll(params)
 ####client.table("tableName").query(params)

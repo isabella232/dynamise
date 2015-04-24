@@ -31,20 +31,20 @@ describe("Table", function () {
         client = db("local");
 
         return client
-            .delete(testTable)
+            .remove(testTable)
             //we don't care if it did not exist
             .catch(function () {
                 return true;
             });
     });
 
-    describe("#delete", function () {
+    describe("#remove", function () {
 
         describe("with a missing table", function () {
 
             it("should return a 'ResourceNotFoundException'", function () {
 
-                return client.delete("NonExisting")
+                return client.remove("NonExisting")
                     .catch(function (err) {
                         expectTableNonExistingError(err);
                     });
@@ -58,7 +58,7 @@ describe("Table", function () {
                 return client
                     .create(testTable)
                     .then(function (data) {
-                        return client.delete(testTable);
+                        return client.remove(testTable);
                     })
                     .then(function (res) {
                         expect(res).to.be.an("object");

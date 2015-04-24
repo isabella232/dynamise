@@ -28,7 +28,7 @@ describe("Table", function () {
     });
 
     return client
-      .delete("test")
+      .remove("test")
       //we don't care if it did not exist
       .catch(function () {
         return true;

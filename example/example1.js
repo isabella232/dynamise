@@ -26,7 +26,7 @@ test.recreate("Example")
 })
 .then(function(data) {
   console.log("Item", data );
-  return test.table("Example").delete({ UserId:"1", FileId:"2"});
+  return test.table("Example").remove({ UserId:"1", FileId:"2"});
 })
 .then(function(data) {
   console.log("Check table after delete");
@@ -34,7 +34,7 @@ test.recreate("Example")
 })
 .then(function(data) {
   console.log("Example ItemCount", data.ItemCount);
-  return test.delete("Example").then( function(data) {
+  return test.remove("Example").then( function(data) {
     return test.active("Example");
   });
 })

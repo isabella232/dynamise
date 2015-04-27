@@ -9,7 +9,7 @@ var items = [],
   download = [];
 
 
-for (var i = 0; i < 3620; i++) {
+for (var i = 0; i < 3623; i++) {
   items.push({
     UserId: "" + i,
     FileId: "File#" + i
@@ -20,9 +20,11 @@ console.log("Number of items to upload:", items.length);
 
 client.recreate("Example")
   .then(function () {
+    console.log("Waiting for database to be active...");
     return client.active("Example");
   })
   .then(function () {
+    console.log("Database is now active.");
     console.log("Now starting to upload items...");
     lasts = Date.now();
     return client.table("Example").upload(items);
@@ -42,5 +44,6 @@ client.recreate("Example")
     });
   })
   .catch(function (err) {
+    console.error(err, err.stack);
     throw err;
   });

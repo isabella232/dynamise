@@ -44,6 +44,6 @@ client.recreate("Example")
     });
   })
   .catch(function (err) {
-    console.error(err, err.stack);
+    console.trace(err.stack);
     throw err;
   });

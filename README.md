@@ -32,27 +32,31 @@ Recreates the table if exists or creates the table if not and waits until active
 ###Table functions
 ####client.table("tableName").read(hash,range)
 ####client.table("tableName").patch(item)
+
+Use to update an existing item.
+
 ####client.table("tableName").upsert(item)
+####client.table("tableName").multiUpsert(items)
 
-Creates a new item, or replaces an old item with a new item. If an item that has the same primary key as the new item already exists in the specified table, the new item completely replaces the existing item.
+Uses the *batchWriteItem* method from AWS.DynamoDB to do an upsert on many items. Note that *batchWriteItem*
+cannot update items. Items which already exist are fully replaced.
 
-####client.table("tableName").multiUpsert(client,items)
-####client.table("tableName").upload(Array|ReadableStream)
+####client.table("tableName").upload(Array)
 
-Uploading using an UploadStream. Returns a Promise which handles the events internally.
+Upload an array of items using multiUpsert. Returns a Promise which handles the events internally.
 
-```javascript
-.upload([]).then(...)
-.upload(downloadStream).then(...)
-```
+####client.table("tableName").createUploadStream()
 
-Call without an argument to get the WritableStream instance for custom piping
+Returns an instance of UploadStream to handle an upload via stream manually.
 
-```javascript
-downloadStream.pipe(client.table("test").upload())
-```
+####client.table("tableName").download()
 
-####client.table("tableName").download(writableStream)
+Uses scanAll to do an complete scan.
+
+####client.table("tableName").createDownloadStream()
+
+Returns an instance of `DownloadStream`.
+
 ####client.table("tableName").remove(hash,range)
 ####client.table("tableName").find(params)
 ####client.table("tableName").findAll(params)

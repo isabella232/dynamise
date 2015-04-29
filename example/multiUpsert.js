@@ -9,7 +9,7 @@ var tables = {
 };
 
 // fill tables object
-for (var i = 0; i < 15; i++) {
+for (var i = 0; i < 12; i++) {
 
   tables.Example.push({
     UserId: "" + i,

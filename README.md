@@ -63,7 +63,7 @@ client.table("Example").multiUpsert(items).then(...);
 ```
 
 **NOTE:** If you want to multiUpsert on different tables use the client.multiUpsert() method. Actually,
-this is using it either.
+this method is using it either.
 
 
 ####client.table("tableName").upload(Array)
@@ -77,10 +77,10 @@ var items = [
   ...
 ];
 
-**NOTE:** Currently this is only an alias for client.table(tableName).multiUpsert()
-
 client.table("Example").upload(items).then(...);
 ```
+
+**NOTE:** Currently this is only an alias for client.table(tableName).multiUpsert()
 
 ####client.table("tableName").createUploadStream()
 

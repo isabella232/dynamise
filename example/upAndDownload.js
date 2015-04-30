@@ -9,7 +9,7 @@ var items = [],
   download = [];
 
 
-for (var i = 0; i < 3623; i++) {
+for (var i = 0; i < 198; i++) {
   items.push({
     UserId: "" + i,
     FileId: "File#" + i
@@ -44,6 +44,6 @@ client.recreate("Example")
     });
   })
   .catch(function (err) {
-    console.error(err, err.stack);
+    console.trace(err.stack);
     throw err;
   });

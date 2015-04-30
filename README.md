@@ -35,11 +35,7 @@ var tables = {
   "TableA": [item1, item2, ...],
   "TableB": [item1, item2, ...]
 }
-```
 
-NOTE: Consider that you are only able to process 25 items at a time, at the moment!
-
-```javascript
 client.multiUpsert(tables).then(...)
 ```
 
@@ -56,11 +52,6 @@ Use to update an existing item.
 Uses the *batchWriteItem* method from AWS.DynamoDB to do an upsert on many items. Note that *batchWriteItem*
 cannot update items. Items which already exist are fully replaced.
 
-At the moment `multiUpsert()` does not handle the limitation of Amazons `batchWriteItem()`:
-> A single call to BatchWriteItem can write up to 16 MB of data, which can comprise as many as 25 put or delete requests. Individual items to be written can be as large as 400 KB.
-
-For now you have to handle that yourself or use the `client.table("tableName").upload()` method. Otherwise you will get an `ValidationExcpetion`.
-
 ```javascript
 var items = [
   { UserId: "1", FileId: "file#1" },
@@ -70,6 +61,10 @@ var items = [
 
 client.table("Example").multiUpsert(items).then(...);
 ```
+
+**NOTE:** If you want to multiUpsert on different tables use the client.multiUpsert() method. Actually,
+this is using it either.
+
 
 ####client.table("tableName").upload(Array)
 
@@ -81,6 +76,8 @@ var items = [
   { UserId: "2", FileId" "file#2" },
   ...
 ];
+
+**NOTE:** Currently this is only an alias for client.table(tableName).multiUpsert()
 
 client.table("Example").upload(items).then(...);
 ```

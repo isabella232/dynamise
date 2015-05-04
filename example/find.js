@@ -1,23 +1,21 @@
 "use strict";
 
 var db = require("../lib");
+var client = db("local");
 
-var test = db("local");
-
-test.recreate("TestTable")
+client.recreate("Example")
   .then(function(data) {
-    return test.table("TestTable").create({UserId:"1", FileId:"2"});
+    return client.table("Example").create({UserId:"1", FileId:"2"});
   })
   .then(function(data) {
-    return test.table("TestTable").create({UserId:"1", FileId:"3"});
+    return client.table("Example").create({UserId:"1", FileId:"3"});
   })
   .then(function(data) {
 
-    return test.table("TestTable")
+    return client.table("Example")
       .find()
       .where("UserId").equals("1")
       .where("FileId").equals("2");
-
   })
   .then(function(data) {
     console.log("query data",data);

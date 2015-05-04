@@ -80,18 +80,22 @@ See [DynamoDB.batchGetItem](http://docs.aws.amazon.com/amazondynamodb/latest/API
 
 ###Table functions
 
-The following functions have to be appended on `client.table(tableName)`. Thus you are performing
-on a specific table.
+The following functions perform on a specified table (like so `client.table(tableName).someMethod()`).
 
 ####client.table("tableName").read(hash,range)
 
-
+See [DynamoDB.getItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html).
 
 ####client.table("tableName").patch(item)
 
 Use to update an existing item.
 
+See [DynamoDB.updateItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html) for more information.
+
 ####client.table("tableName").upsert(item)
+
+See [DynamoDB.putItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_PutItem.html) for more information.
+
 ####client.table("tableName").multiUpsert(items)
 
 Uses the *batchWriteItem* method from AWS.DynamoDB to do an upsert on many items. Note that *batchWriteItem*
@@ -110,6 +114,7 @@ client.table("Example").multiUpsert(items).then(...);
 **NOTE:** If you want to multiUpsert on different tables use the client.multiUpsert() method. Actually,
 this method is using it either.
 
+See [DynamoDB.batchWriteItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchWriteItem.html) for more information.
 
 ####client.table("tableName").upload(Array)
 
@@ -133,15 +138,65 @@ Returns an instance of `UploadStream` to handle an upload via stream manually.
 
 ####client.table("tableName").download()
 
-Uses `scanAll()` to do an complete scan.
+Actually this is an alias for `clieb.table(tableName).scanAll()` - does a complete scan.
 
 ####client.table("tableName").createDownloadStream()
 
 Returns an instance of `DownloadStream` to handle a download manually.
 
 ####client.table("tableName").remove(hash,range)
+
+Deletes a single item in a table.
+
+See [DynamoDB.deleteItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DeleteItem.html) for more information.
+
 ####client.table("tableName").find(params)
+
+Used to find items based on conditions.
+
+Example:
+```javascript
+client.table("Example")
+      .find()
+      .where("UserId").equals("1")
+      .where("FileId").equals("2");
+```
+
+You are able to add different conditions to a query, like so
+
+```javascript
+client.table("Example")
+  .find()
+  .where(AttributeName).equals(value)
+  ...
+  .where(AttributeName).beginsWith(value)
+  ...
+  .where(AttributeName).lt(value) // lower than
+  ...
+  .where(AttributeName).le(value) // lower or equal
+  ...
+  .where(AttributeName).between(value)
+  ...
+  .where(AttributeName).gt(value) // greater than
+  ...
+  .where(AttributeName).ge(value) // greater or equal
+```
+
 ####client.table("tableName").findAll(params)
+
 ####client.table("tableName").query(params)
+
+See [DynamoDB.query](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html) for more information.
+
 ####client.table("tableName").scan(params)
+
+Returns items of a table.
+
+> If the total number of scanned items exceeds the maximum data set size limit of 1 MB,
+the scan stops and results are returned to the user as a LastEvaluatedKey value to continue the scan in a subsequent operation.
+
+See [DynamoDB.scan](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Scan.html) for more information.
+
 ####client.table("tableName").scanAll(params)
+
+Uses `client.table(tableName).scan()` to scan all items of a table.

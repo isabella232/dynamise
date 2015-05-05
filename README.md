@@ -80,7 +80,7 @@ See [DynamoDB.batchGetItem](http://docs.aws.amazon.com/amazondynamodb/latest/API
 
 ###Table functions
 
-The following functions perform on a specified table (like so `client.table(tableName).someMethod()`).
+The following functions perform on a specified table (like so `client.table("tableName").someMethod()`).
 
 ####client.table("tableName").read(hash,range)
 
@@ -130,7 +130,7 @@ var items = [
 client.table("Example").upload(items).then(...);
 ```
 
-**NOTE:** Currently this is only an alias for client.table(tableName).multiUpsert()
+**NOTE:** Currently this is only an alias for client.table("tableName").multiUpsert()
 
 ####client.table("tableName").createUploadStream()
 
@@ -199,4 +199,4 @@ See [DynamoDB.scan](http://docs.aws.amazon.com/amazondynamodb/latest/APIReferenc
 
 ####client.table("tableName").scanAll(params)
 
-Uses `client.table(tableName).scan()` to scan all items of a table.
+Uses `client.table("tableName").scan()` to scan all items of a table.

@@ -20,7 +20,7 @@ See [DynamoDB.listTables](http://docs.aws.amazon.com/amazondynamodb/latest/APIRe
 
 ####client.create("tableName")
 
-Adds a new table.
+Adds a new table if it does exist in `/tables`. Otherwise you are able to hand over a complete table object.
 
 See [DynamoDB.createTable](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_CreateTable.html) for more information.
 
@@ -158,7 +158,7 @@ Example:
 ```javascript
 client.table("Example")
       .find()
-      .where("UserId").equals("1")
+      .where("UserId").equals("1") // hash key
       .where("FileId").equals("2");
 ```
 
@@ -167,6 +167,7 @@ You are able to add different conditions to a query, like so
 ```javascript
 client.table("Example")
   .find()
+  .where(HashKey).equals(values) // hash key
   .where(AttributeName).equals(value)
   ...
   .where(AttributeName).beginsWith(value)
@@ -181,6 +182,8 @@ client.table("Example")
   ...
   .where(AttributeName).ge(value) // greater or equal
 ```
+
+**NOTE**: You can only use an *equal* condition on a hash key.
 
 ####client.table("tableName").findAll(params)
 

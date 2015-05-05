@@ -116,7 +116,7 @@ this method is using it either.
 
 See [DynamoDB.batchWriteItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchWriteItem.html) for more information.
 
-####client.table("tableName").upload(Array)
+####client.table("tableName").upload(items)
 
 Upload an array of items using multiUpsert. Returns a Promise which handles the events internally.
 

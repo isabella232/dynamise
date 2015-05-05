@@ -207,7 +207,7 @@ describe("Table", function () {
         })
     });
 
-    it.only("should download all 53 items", function () {
+    it("should download all 53 items", function () {
 
       return client.table(testTable.TableName).download()
         .then(function (data) {

@@ -34,14 +34,8 @@ client.recreate("Example")
     console.log("Now starting to download them again.");
     return client.table("Example").download();
   })
-  .then(function (stream) {
-    stream.on('data', function(item) {
-      download.push(item);
-    });
-
-    stream.on('end', function() {
+  .then(function (download) {
       console.log("Downloaded", download.length, "items");
-    });
   })
   .catch(function (err) {
     console.trace(err.stack);

@@ -1,8 +1,6 @@
 "use strict";
 
-var db = require("../lib");
-
-var client = db("local");
+var client = require("./testClient");
 
 client.listTables()
   .then(function (data) {

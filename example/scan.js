@@ -15,7 +15,6 @@ test.recreate("Example")
 
     return test.table("Example")
       .scan({Limit:1})
-      .exec();
   })
   .then(function(data) {
     console.log("scan data",data);

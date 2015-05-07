@@ -1,13 +1,13 @@
-var db = require("../lib");
+"use strict";
 
-var test = db("local");
+var client = require("./testClient");
 
-test.recreate("Example")
+client.recreate("Example")
 .then(function(data) {
-  return test.table("Example").create({UserId:"1", FileId:"2"});
+  return client.table("Example").create({UserId:"1", FileId:"2"});
 })
 .then(function(data) {
-  return test.table("Example").create({UserId:"1", FileId:"3"});
+  return client.table("Example").create({UserId:"1", FileId:"3"});
 })
 .then(function(data) {
   
@@ -30,7 +30,7 @@ test.recreate("Example")
     }
   };
   
-  return test.table("Example").query(params);
+  return client.table("Example").query(params);
 })
 .then(function(data) {
   console.log("query data",data);

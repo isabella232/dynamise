@@ -5,6 +5,8 @@ var util = require("util");
 
 var _ = require("lodash");
 
+var client = require("./testClient");
+
 //stringify streams converts objects to buffers
 //allowing us to pipe to process.stdout
 function StringifyStream() {
@@ -25,10 +27,6 @@ var stringifyStream = new StringifyStream();
 //convert from objects to strings
 stringifyStream.pipe(process.stdout);
 
-var db = require("../lib");
-
-var client = db("local");
-
 var uploadItems = [];
 for (var i = 0; i < 123; i++) {
   uploadItems.push({
@@ -46,18 +44,10 @@ client.recreate("Example")
       .then(function () {
         return client.table("Example").download();
       })
-      .then(function (stream) {
+      .then(function (data) {
 
-        var itemsFromDownloadStream = [];
-
-        stream.on('data', function(data) {
-          itemsFromDownloadStream.push(data);
-        });
-
-        stream.on('end', function() {
           console.log('# uploaded items:', items.length);
-          console.log('# downloaded items:', itemsFromDownloadStream.length);
-        })
+          console.log('# downloaded items:', data.length);
       })
       .catch(function (err) {
         console.log(err, err.stack);

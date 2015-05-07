@@ -1,7 +1,6 @@
 "use strict";
 
-var db = require("../lib");
-var client = db("local");
+var client = require("./testClient");
 
 client.recreate("Example")
   .then(function(data) {

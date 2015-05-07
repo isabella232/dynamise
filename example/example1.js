@@ -1,41 +1,36 @@
 "use strict";
 
-var db = require("../lib");
+var client = require("./testClient");
 
-// set common configuration to simplify api calls
-// db("local").set( { "TEST2:" tableDefinition } );
-
-var test = db("local");
-
-test.recreate("Example")
+client.recreate("Example")
 .then(function(data) {
   console.log("Wait for Example tobe Active");
-  return test.active("Example");
+  return client.active("Example");
 })
 .then(function(data) {
   console.log("Create 1 Item");
-  return test.table("Example").create({ UserId:"1", FileId:"2"});
+  return client.table("Example").create({ UserId:"1", FileId:"2"});
 })
 .then(function(data) {
   console.log("Check table again");
-  return test.status("Example");
+  return client.status("Example");
 })
 .then(function(data) {
   console.log("Example ItemCount", data.ItemCount);
-  return test.table("Example").read("1", "2");
+  return client.table("Example").read("1", "2");
 })
 .then(function(data) {
   console.log("Item", data );
-  return test.table("Example").remove({ UserId:"1", FileId:"2"});
+  return client.table("Example").remove({ UserId:"1", FileId:"2"});
 })
 .then(function(data) {
   console.log("Check table after delete");
-  return test.status("Example");
+  return client.status("Example");
 })
 .then(function(data) {
   console.log("Example ItemCount", data.ItemCount);
-  return test.remove("Example").then( function(data) {
-    return test.active("Example");
+  return client.remove("Example").then( function(data) {
+    return client.active("Example");
   });
 })
 .catch(function(err) {

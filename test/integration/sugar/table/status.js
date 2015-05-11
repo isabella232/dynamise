@@ -6,7 +6,7 @@ var db = require("../../../../lib");
 var testTable = require("../../../support/testTable");
 var expectTableNonExistingError = require("../../../support/helpers").expectTableNonExistingError;
 
-describe("table status - client.status(table)", function () {
+describe("client.status(table)", function () {
 
   var client;
 

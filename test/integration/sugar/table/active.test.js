@@ -3,7 +3,7 @@
 var db = require("../../../../lib");
 var testTable = require("../../../support/testTable");
 
-describe("active table - client.active(table)", function () {
+describe("client.active(table)", function () {
 
   var client;
 

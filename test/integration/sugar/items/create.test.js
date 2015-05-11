@@ -8,7 +8,7 @@ var testTable = require("../../../support/testTable");
 var existingItem = {id: "1", email: "1@epha.com"};
 var newItem = {id: "1", email: "2@epha.com"};
 
-describe("create an item - client.table(tableName).create()", function () {
+describe("client.table(tableName).create()", function () {
 
   var client;
 

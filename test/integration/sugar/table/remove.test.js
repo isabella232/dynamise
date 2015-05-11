@@ -6,7 +6,7 @@ var db = require("../../../../lib");
 var testTable = require("../../../support/testTable");
 var expectTableNonExistingError = require("../../../support/helpers").expectTableNonExistingError;
 
-describe("remove table - client.remove(table)", function () {
+describe("client.remove(table)", function () {
 
   var client;
 

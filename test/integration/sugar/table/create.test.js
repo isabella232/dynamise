@@ -6,7 +6,7 @@ var db = require("../../../../lib");
 var testTable = require("../../../support/testTable");
 var expectValidTableDescription = require("../../../support/helpers").expectValidTableDescription;
 
-describe("create table - client.create(table)", function () {
+describe("client.create(table)", function () {
 
   var client;
 

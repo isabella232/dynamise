@@ -5,7 +5,7 @@ var expect = require("chai").expect;
 var db = require("../../../../../lib");
 var testTable = require("../../../../support/testTable");
 
-describe("multi upsert items - client.table(table).multiUpsert()", function () {
+describe("client.table(tableName).multiUpsert()", function () {
 
   var client;
 

@@ -5,7 +5,7 @@ var expect = require("chai").expect;
 var db = require("../../../../lib");
 var testTable = require("../../../support/testTable");
 
-describe("scan items - client.table(table).scan", function () {
+describe("client.table(tableName).scan()", function () {
 
   var client;
 

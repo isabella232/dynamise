@@ -6,7 +6,7 @@ var expect = require("chai").expect;
   var testTable = require("../../../support/testTable");
   var expectTableNonExistingError = require("../../../support/helpers").expectTableNonExistingError;
 
-  describe("read table = client.read(table)", function () {
+  describe("client.read(table)", function () {
 
     var client;
 

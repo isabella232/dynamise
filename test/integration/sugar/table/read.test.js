@@ -2,22 +2,22 @@
 
 var expect = require("chai").expect;
 
-var db = require("../../../../lib");
-var testTable = require("../../../support/testTable");
-var expectTableNonExistingError = require("../../../support/helpers").expectTableNonExistingError;
+  var db = require("../../../../lib");
+  var testTable = require("../../../support/testTable");
+  var expectTableNonExistingError = require("../../../support/helpers").expectTableNonExistingError;
 
-describe("read table = client.read(table)", function () {
+  describe("read table = client.read(table)", function () {
 
-  var client;
+    var client;
 
-  beforeEach(function () {
-    client = db("local");
+    beforeEach(function () {
+      client = db("local");
 
-    return client.remove(testTable)
-      .catch(function () {
-        return true;
-      });
-  });
+      return client.remove(testTable)
+        .catch(function () {
+          return true;
+        });
+    });
 
   it("should fail if table does not exist", function () {
 

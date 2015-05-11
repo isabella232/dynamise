@@ -34,15 +34,14 @@ describe("client.table(tableName).create()", function () {
         })
     });
 
-    it("should replace the item", function () {
+    it("should throw an ConditionalCheckFailedExpression", function () {
       return client.table(testTable.TableName).create(newItem)
         .then(function () {
           return client.table(testTable.TableName).download();
         })
-        .then(function (data) {
-          expect(data).to.be.instanceof(Array);
-          expect(data).to.have.length(1);
-          expect(data[0]).to.eql(newItem);
+        .catch(function (error) {
+          expect(error).to.be.instanceof(Error);
+          expect(error.code).to.equal("ConditionalCheckFailedException");
         });
     });
 

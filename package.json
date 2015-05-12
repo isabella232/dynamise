@@ -1,5 +1,5 @@
 {
-  "name": "epha-model",
+  "name": "dynamise",
   "version": "1.0.6",
   "description": "epha model",
   "main": "./lib/index.js",

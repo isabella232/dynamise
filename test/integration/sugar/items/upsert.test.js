@@ -1,27 +1,14 @@
 "use strict";
 
 var expect = require("chai").expect;
-
-var db = require("../../../../lib");
 var testTable = require("../../../support/testTable");
 
 describe("client.table(tableName).upsert()", function () {
 
-  var client;
+  var client = require("../../../support/testClient");
 
   beforeEach(function () {
-    client = db("local");
-    client.set({test: testTable});
-
-    return client.remove(testTable)
-      .then(function () {
-        // create the table, after removing it
-        return client.create(testTable)
-      })
-      .catch(function () {
-        // if the table does not exist, create it
-        return client.create(testTable)
-      });
+    return client.recreate(testTable);
   });
 
   it("should write the item to the database", function () {
@@ -56,10 +43,4 @@ describe("client.table(tableName).upsert()", function () {
       });
   });
 
-  afterEach(function () {
-    return client.remove(testTable)
-      .catch(function () {
-        return true;
-      });
-  });
 });

@@ -1,19 +1,14 @@
 "use strict";
 
 var expect = require("chai").expect;
-
-var db = require("../../../../lib");
 var testTable = require("../../../support/testTable");
 
 describe("client.table(tableName).scanAll()", function () {
 
-  var client;
+  var client = require("../../../support/testClient");
   var items = [];
 
   beforeEach(function () {
-    client = db("local");
-    client.set({test: testTable});
-
     for (var i = 0; i < 53; i++) {
       items.push({
         "id": "" + i,
@@ -21,13 +16,10 @@ describe("client.table(tableName).scanAll()", function () {
       });
     }
 
-    return client.create(testTable)
-      .then(function () {
-        return client.active(testTable.TableName);
-      })
+    return client.recreate(testTable)
       .then(function () {
         return client.table(testTable.TableName).upload(items);
-      })
+      });
   });
 
   it("should download all 53 items", function () {
@@ -38,11 +30,4 @@ describe("client.table(tableName).scanAll()", function () {
         expect(data).to.have.length(53);
       });
   });
-
-  afterEach(function () {
-    return client.remove(testTable.TableName)
-      .catch(function () {
-        return true;
-      })
-  })
 });

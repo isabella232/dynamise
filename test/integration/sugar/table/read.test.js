@@ -1,27 +1,19 @@
 "use strict";
 
 var expect = require("chai").expect;
+var testTable = require("../../../support/testTable");
+var expectTableNonExistingError = require("../../../support/helpers").expectTableNonExistingError;
 
-  var db = require("../../../../lib");
-  var testTable = require("../../../support/testTable");
-  var expectTableNonExistingError = require("../../../support/helpers").expectTableNonExistingError;
+describe("client.read(table)", function () {
 
-  describe("client.read(table)", function () {
-
-    var client;
-
-    beforeEach(function () {
-      client = db("local");
-
-      return client.remove(testTable)
-        .catch(function () {
-          return true;
-        });
-    });
+  var client = require("../../../support/testClient");
 
   it("should fail if table does not exist", function () {
 
-    client.read(testTable)
+    return client.remove(testTable)
+      .then(function () {
+        return client.read(testTable)
+      })
       .catch(function (err) {
         expectTableNonExistingError(err);
       });
@@ -30,7 +22,7 @@ var expect = require("chai").expect;
   describe("if the table exists it", function () {
 
     beforeEach(function () {
-      return client.create(testTable);
+      return client.recreate(testTable);
     });
 
     it("should return valid table description", function () {

@@ -1,19 +1,14 @@
 "use strict";
 
-var db = require("../../../../lib");
+var expect = require("chai").expect;
 var testTable = require("../../../support/testTable");
 
 describe("client.active(table)", function () {
 
-  var client;
+  var client = require("../../../support/testClient");
 
   beforeEach(function () {
-    client = db("local");
-
-    return client.remove(testTable)
-      .catch(function () {
-        return true;
-      })
+    return client.recreate(testTable);
   });
 
   it("should throw an error if the maximum of attempts exceeded", function () {
@@ -24,10 +19,4 @@ describe("client.active(table)", function () {
     // TODO: evaluate how I can mock the TableStatus to ACTIVE
   });
 
-  afterEach(function () {
-    return client.remove(testTable)
-      .catch(function () {
-        return true;
-      });
-  });
 });

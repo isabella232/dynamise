@@ -1,30 +1,17 @@
 "use strict";
 
 var expect = require("chai").expect;
-
-var db = require("../../../../../lib");
 var testTable = require("../../../../support/testTable");
 
 describe("client.table(tableName).multiUpsert()", function () {
 
-  var client;
+  var client = require("../../../../support/testClient");
 
   beforeEach(function () {
-
-    client = db("local");
-    client.set({test: testTable});
-
-    return client.remove(testTable)
-      .catch(function (err) {
-        return true;
-      });
+    return client.recreate(testTable);
   });
 
   describe("if the database is empty", function () {
-
-    beforeEach(function () {
-      return client.create(testTable)
-    });
 
     var items = [];
     for (var i = 1; i < 188; i++) {
@@ -54,10 +41,6 @@ describe("client.table(tableName).multiUpsert()", function () {
   });
 
   describe("if the database is not empty", function () {
-
-    beforeEach(function () {
-      return client.create(testTable)
-    });
 
     var items = [];
     for (var i = 1; i < 188; i++) {
@@ -94,10 +77,4 @@ describe("client.table(tableName).multiUpsert()", function () {
     });
   });
 
-  afterEach(function () {
-    return client.remove(testTable)
-      .catch(function () {
-        return true;
-      });
-  });
 });

@@ -1,25 +1,14 @@
 "use strict";
 
 var expect = require("chai").expect;
-
-var db = require("../../../../../lib");
 var testTable = require("../../../../support/testTable");
 
 describe("client.table(tableName).multiRead()", function () {
 
-  var client;
+  var client = require("../../../../support/testClient");
 
   beforeEach(function () {
-    client = db("local");
-    client.set({test: testTable});
-
-    return client.remove(testTable)
-      .then(function () {
-        return client.create(testTable);
-      })
-      .catch(function () {
-        return client.create(testTable);
-      });
+    return client.recreate(testTable);
   });
 
   it("return the correct items for one table", function () {
@@ -53,13 +42,5 @@ describe("client.table(tableName).multiRead()", function () {
         });
       });
   });
-
-  afterEach(function () {
-    return client.remove(testTable)
-      .catch(function () {
-        return true;
-      });
-  });
-
 
 });

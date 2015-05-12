@@ -1,7 +1,6 @@
 "use strict";
 
 var expect = require("chai").expect;
-
 var db = require("../../../../lib");
 
 describe("client.set(definitions)", function () {

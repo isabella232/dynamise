@@ -8,18 +8,14 @@ var expectTableNonExistingError = require("../../../support/helpers").expectTabl
 
 describe("client.remove(table)", function () {
 
-  var client;
+  var client = require("../../../support/testClient");
 
   beforeEach(function () {
-    client = db("local");
-
     return client.remove(testTable)
-      //we don't care if it did not exist
       .catch(function () {
         return true;
       });
   });
-
 
   it("should throw 'ResourceNotFoundException' if table is missing", function () {
 
@@ -33,7 +29,7 @@ describe("client.remove(table)", function () {
   it("should delete the table and return table data if table exists", function () {
 
     return client
-      .create(testTable)
+      .recreate(testTable)
       .then(function (data) {
         return client.remove(testTable);
       })

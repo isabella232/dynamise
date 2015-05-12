@@ -1,17 +1,14 @@
 "use strict";
 
 var expect = require("chai").expect;
-
-var db = require("../../../../lib");
 var testTable = require("../../../support/testTable");
 
 describe("client.table(tableName).scan()", function () {
 
-  var client;
+  var client = require("../../../support/testClient");
 
   beforeEach(function () {
-    client = db("local");
-    client.set({test: testTable});
+    return client.recreate(testTable);
   });
 
   var items = [];
@@ -28,13 +25,7 @@ describe("client.table(tableName).scan()", function () {
         });
       }
 
-      return client.create(testTable)
-        .then(function () {
-          return client.active(testTable.TableName);
-        })
-        .then(function () {
-          return client.table(testTable.TableName).upload(items);
-        });
+      return client.table(testTable.TableName).upload(items);
     });
 
     it("should scan " + limit + " items with '{Limit: " + limit + "}' param and have a LastEvaluatedKey", function () {
@@ -55,13 +46,6 @@ describe("client.table(tableName).scan()", function () {
           expect(data).to.be.instanceof(Object);
           expect(data.Items).to.be.instanceof(Array);
           expect(data.Items).to.have.length(53);
-        });
-    });
-
-    afterEach(function () {
-      return client.remove(testTable.TableName)
-        .catch(function () {
-          return true;
         });
     });
   });

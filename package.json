@@ -4,7 +4,7 @@
   "description": "epha model",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "mocha --recursive test/* --timeout 2500",
+    "test": "mocha --recursive test/* --timeout 60000",
     "dynalite": "node_modules/.bin/dynalite --port 8000 --path ./.tmp"
   },
   "repository": {
@@ -27,6 +27,7 @@
     "JSONStream": "^0.10.0",
     "chai": "^2.1.2",
     "debug": "^2.1.3",
+    "jscs": "^1.13.1",
     "mocha": "^2.2.1"
   }
 }

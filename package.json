@@ -4,7 +4,8 @@
   "description": "epha model",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "mocha --recursive test/*"
+    "test": "mocha --recursive test/* --timeout 2500",
+    "dynalite": "node_modules/.bin/dynalite --port 8000 --path ./.tmp"
   },
   "repository": {
     "type": "git",

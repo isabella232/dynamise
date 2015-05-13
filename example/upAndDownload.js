@@ -6,7 +6,6 @@ var items = [],
   lasts,
   download = [];
 
-
 for (var i = 0; i < 198; i++) {
   items.push({
     UserId: "" + i,

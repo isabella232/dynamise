@@ -33,7 +33,9 @@ describe("client.read(table)", function () {
 
           // testing on expected properties (for details http://docs.aws.amazon.com/cli/latest/reference/dynamodb/describe-table.html)
           expect(tableDescription).to.have.property("AttributeDefinitions");
-          expect(tableDescription.AttributeDefinitions).to.eql(testTable.AttributeDefinitions);
+          testTable.AttributeDefinitions.forEach(function (definition) {
+            expect(tableDescription.AttributeDefinitions).to.contain(definition);
+          });
 
           expect(tableDescription).to.have.property("TableName");
           expect(tableDescription.TableName).to.eql(testTable.TableName);

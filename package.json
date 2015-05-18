@@ -3,19 +3,24 @@
   "version": "1.0.6",
   "description": "Library to query DynamoDb",
   "main": "./lib/index.js",
+  "contributors":[
+    { name:"Michael Jaser", email:"michael.jaser@peerigon.com" },
+    { name:"Markus Dobmann", email:"markus.dobmann@peerigon.com" },
+    { name:"Marco Egbring", email:"marco.egbring@epha.ch" }
+  ],
   "scripts": {
     "test": "mocha test/*"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/epha/model.git"
+    "url": "https://github.com/epha/dynamise.git"
   },
   "author": "epha",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/epha/model/issues"
+    "url": "https://github.com/epha/dynamise/issues"
   },
-  "homepage": "https://github.com/epha/model",
+  "homepage": "https://github.com/epha/dynamise",
   "dependencies": {
     "aws-sdk": "^2.1.19",
     "diff": "^1.3.1",

@@ -24,7 +24,7 @@ client.recreate("Example")
       .find()
       .where("UserId").equals("1")
       .and("FileId").ge("4")
-      .exec();
+      .run();
   })
   .then(function(data) {
     console.log("query data",data);

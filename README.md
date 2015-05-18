@@ -31,7 +31,7 @@ Most of the methods, unless stated otherwise, return native ES6 Promises. See [M
   - [client.table("tableName").**upload()**](#client-table-upload)
   - [client.table("tableName").**createUploadStream()**](#client-table-createuploadstream)
   - [client.table("tableName").**download()**](#client-table-download)
-  - [client.table("tableName").**createDownloadStream()](#client-table-createdownloadstream)
+  - [client.table("tableName").**createDownloadStream()**](#client-table-createdownloadstream)
   - [client.table("tableName").**remove()**](#client-table-remove)
   - [client.table("tableName").**find()**](#client-table-find)
   - [client.table("tableName").**query()**](#client-table-query)

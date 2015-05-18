@@ -1,7 +1,7 @@
 {
-  "name": "epha-model",
+  "name": "dynamise",
   "version": "1.0.6",
-  "description": "epha model",
+  "description": "Library to query DynamoDb",
   "main": "./lib/index.js",
   "scripts": {
     "test": "mocha test/*"

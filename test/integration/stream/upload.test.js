@@ -6,7 +6,7 @@ var path = require("path"),
   _ = require("lodash"),
   JSONStream = require("JSONStream");
 
-var testTable = require("../../support/testTable");
+var testTable = require("../../support/testTables").test;
 
 describe("client.table(tableName).createUploadStream()", function () {
 

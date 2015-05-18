@@ -3,7 +3,7 @@
 var expect = require("chai").expect;
 var _ = require("lodash");
 var db = require("../../../../lib");
-var testTable = require("../../../support/testTable");
+var testTable = require("../../../support/testTables").test;
 
 describe("client.table(tableName).upload()", function () {
 

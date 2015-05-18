@@ -1,7 +1,7 @@
 "use strict";
 
 var expect = require("chai").expect;
-var testTable = require("../../../support/testTable");
+var testTable = require("../../../support/testTables").test;
 var expectTableNonExistingError = require("../../../support/helpers").expectTableNonExistingError;
 
 describe("client.status(table)", function () {

@@ -3,7 +3,7 @@
 var expect = require("chai").expect;
 
 var db = require("../../../../lib");
-var testTable = require("../../../support/testTable");
+var testTable = require("../../../support/testTables").test;
 var expectTableNonExistingError = require("../../../support/helpers").expectTableNonExistingError;
 
 describe("client.remove(table)", function () {

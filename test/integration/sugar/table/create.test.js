@@ -1,7 +1,7 @@
 "use strict";
 
 var expect = require("chai").expect;
-var testTable = require("../../../support/testTable");
+var testTable = require("../../../support/testTables").test;
 var expectValidTableDescription = require("../../../support/helpers").expectValidTableDescription;
 
 var delay = require("../../../../lib/utils").delay;
@@ -36,8 +36,6 @@ describe("client.create(table)", function () {
       .then(function (res) {
         expectValidTableDescription(res.TableDescription, "test");
       });
-    //return client.create(testTable)
-
   });
 
   it("should create a table if passed a table name and table has been registered before", function () {

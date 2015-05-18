@@ -10,8 +10,8 @@ module.exports = {
         { AttributeName: "id", KeyType: "HASH" }
     ],
     ProvisionedThroughput: {
-        ReadCapacityUnits: 10,
-        WriteCapacityUnits: 10
+        ReadCapacityUnits: 2,
+        WriteCapacityUnits: 2
     },
     GlobalSecondaryIndexes: [
         {
@@ -23,8 +23,8 @@ module.exports = {
                 ProjectionType: "ALL"
             },
             ProvisionedThroughput: {
-                ReadCapacityUnits: 10,
-                WriteCapacityUnits: 10
+                ReadCapacityUnits: 2,
+                WriteCapacityUnits: 2
             }
         },
         {
@@ -36,8 +36,8 @@ module.exports = {
                 ProjectionType: "ALL"
             },
             ProvisionedThroughput: {
-                ReadCapacityUnits: 10,
-                WriteCapacityUnits: 10
+                ReadCapacityUnits: 2,
+                WriteCapacityUnits: 2
             }
         }
     ]

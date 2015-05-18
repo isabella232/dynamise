@@ -1,8 +1,8 @@
-#DB
-##Examples
-Look into example folder to learn about the available functions
+#Dynamise
 
-#API
+**Examples:** Look into the example folder to learn about the available functions
+
+#API Docs
 All the following examples assume that you got a client for a specific endpoint, like so:
 ```javascript
 var db = require("dynamise");
@@ -19,7 +19,22 @@ See [DynamoDB.listTables](http://docs.aws.amazon.com/amazondynamodb/latest/APIRe
 
 ##client.create("tableName")
 
-Adds a new table if it does exist in `/tables`. Otherwise you are able to hand over a complete table object.
+Adds a new table to the database. If you have `set(tableDefintion)` a table definition already, you can use the tableName as a String parameter. Otherwise you are able to hand over a complete table object.
+
+**Example**
+```javascript
+var tableDefinition = {
+    // complete table definition
+}
+
+client.create(tableDefinition).then(doMore);
+
+// or
+client.set({tableName: tableDefinition});
+client.create(tableName);
+```
+
+**Note:** `create()` waits for the table to be in an `ACTIVE` state.
 
 See [DynamoDB.createTable](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_CreateTable.html) for more information.
 
@@ -99,7 +114,7 @@ cannot update items. Items which already exist are fully replaced.
 ```javascript
 var items = [
   { UserId: "1", FileId: "file#1" },
-  { UserId: "2", FileId" "file#2" }, // up to 25 items
+  { UserId: "2", FileId" "file#2" },
   ...
 ]
 
@@ -149,26 +164,80 @@ See [DynamoDB.deleteItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIRe
 
 Used to find items based on conditions.
 
-Example:
+**Example**
 ```javascript
 client.table("Example")
-      .find()
-      //.index("IndexName")
-      //.all()
+      .find(params) // params is optional
       .where("UserId").equals("1") // hash key
       .and("FileId").equals("2");
       .run()
 ```
 
-You are able to add different conditions to a query, like so
+You are able to pass a *params Object* to `find()` with attributes defined in [DynamoDB.query](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html). We build some sugar functions to make this even easier.
+
+### - index()
+
+The same as params would include `{ IndexName: "IndexNameValue" }`.
+
+**Example**
 
 ```javascript
 client.table("Example")
-  .find()
-  .where(HashKey).equals(values) // hash key
-  .and(AttributeName).equals(value)
-  .run()
+    .find()
+    .index("indexName")}
+    (...)
+    .run();
 ```
+
+### - all()
+
+DynamoDB has several limitations related to how big a query response can be (more information about limitations can be found [here](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html)). Thus we provide a `all()` method which handles the pagination for you.
+
+Otherwise you would have to evaluate responses `LastEvaluatedKey` attribute youself.
+
+**Example**
+```javascript
+client.table("Example")
+    .find()
+    .all()
+    (...)
+    .run();
+```
+
+### - where()
+
+This is used to define a hash key where a certain `equals()` condition is applied to.
+
+**Example**
+```javascript
+client.table("Example")
+  .find()
+  .where("id").equals("1")
+  .run();
+```
+
+**Note:** On hash keys you are only allowed to perform an `equals()` condition.
+
+### - and()
+
+This is used to define a range key where a certain condition is applied to.
+
+**Example**
+```javascript
+client.table("Example")
+  .find()
+  .where("id").equals("1")
+  .and("email").equals("t@epha.com")
+  .run();
+```
+
+You are also allowed to apply the following conditions:
+- `lt()` - lower than
+- `le()` - lower than or equal
+- `gt()` - greater than
+- `ge()` - greater than or equal
+- `between()`
+- `beginsWith()`
 
 ##client.table("tableName").query(params)
 

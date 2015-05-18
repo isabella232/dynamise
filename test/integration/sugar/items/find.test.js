@@ -2,6 +2,7 @@
 
 var expect = require("chai").expect;
 var testTable = require("../../../support/testTables").test;
+var testTable2 = require("../../../support/testTables").test2;
 
 describe("client.table(tableName).find()", function() {
 
@@ -17,31 +18,31 @@ describe("client.table(tableName).find()", function() {
   }
 
   before(function () {
-    return client.recreate(testTable).then(function () {
-      return client.table(testTable.TableName).upload(items);
+    return client.recreate(testTable2).then(function () {
+      return client.table(testTable2.TableName).upload(items);
     });
   });
 
   it("should return 1 item using hash condition", function () {
-    return client.table(testTable.TableName).find().where("id").equals("1").exec()
+    return client.table(testTable2.TableName).find().where("id").equals("1").exec()
       .then(function (res) {
-        expect(res).to.be.instanceof(Array)
+        expect(res).to.be.instanceof(Array);
         expect(res).to.have.length(1);
-        expect(res[0]).to.eql(items[1])
+        expect(items).to.contain(res[0])
       });
   });
 
   it("should return 1 item using hash and range condition", function () {
-    return client.table(testTable.TableName).find().where("id").equals("1").and("email").equals("1@epha.com").exec()
+    return client.table(testTable2.TableName).find().where("id").equals("1").and("email").equals("1@epha.com").exec()
       .then(function (res) {
         expect(res).to.be.instanceof(Array);
         expect(res).to.have.length(1);
-        expect(res[0]).to.eql(items[1])
+        expect(items).to.contain(res[0]);
       });
   });
 
   it("should return no items using hash condition", function () {
-    return client.table(testTable.TableName).find().where("id").equals("17").exec()
+    return client.table(testTable2.TableName).find().where("id").equals("17").exec()
       .then(function (res) {
         expect(res).to.be.instanceof(Array);
         expect(res).to.have.length(0);
@@ -49,11 +50,28 @@ describe("client.table(tableName).find()", function() {
   });
 
   it("should return no items using hash and range condition", function () {
-    return client.table(testTable.TableName).find().where("id").equals("17").and("email").equals("stephan@epha.com").exec()
+    return client.table(testTable2.TableName).find().where("id").equals("17").and("email").equals("stephan@epha.com").exec()
       .then(function (res) {
         expect(res).to.be.instanceof(Array);
         expect(res).to.have.length(0);
       });
   });
+
+  it("should return 17 items with id === 0 using a hash condition", function () {
+    return client.table(testTable2.TableName).find().where("id").equals("0").exec()
+      .then(function (res) {
+        expect(res).to.be.instanceof(Array);
+        expect(res).to.have.length(18);
+      });
+  });
+
+  it("should return 1 item with id === 0 using hash and range condition", function () {
+    return client.table(testTable2.TableName).find().where("id").equals("0").and("email").equals("4@epha.com").exec()
+      .then(function (res) {
+        expect(res).to.be.instanceof(Array);
+        expect(res).to.have.length(1);
+      })
+  })
+
 
 });

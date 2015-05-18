@@ -7,24 +7,24 @@ module.exports = {
     { AttributeName: "Type", AttributeType: "S" }
   ],
   KeySchema: [ // required
-    { AttributeName: 'UserId', KeyType: 'HASH'},
-    { AttributeName: 'FileId', KeyType: 'RANGE'}
+    { AttributeName: "UserId", KeyType: "HASH"},
+    { AttributeName: "FileId", KeyType: "RANGE"}
   ],
   ProvisionedThroughput: { // required
     ReadCapacityUnits: 11, // required
     WriteCapacityUnits: 10 // required
   },
-  TableName: 'Example', // required
+  TableName: "Example", // required
   GlobalSecondaryIndexes: [
     {
-      IndexName: 'TypeIndex', // required
+      IndexName: "TypeIndex", // required
       KeySchema: [ // required
-        { AttributeName: 'UserId', KeyType: 'HASH'},
-        { AttributeName: 'Type', KeyType: 'RANGE'}
+        { AttributeName: "UserId", KeyType: "HASH"},
+        { AttributeName: "Type", KeyType: "RANGE"}
         // ... more items ...
       ],
       Projection: { // required
-        ProjectionType: 'ALL'
+        ProjectionType: "ALL"
       },
       ProvisionedThroughput: { // required
         ReadCapacityUnits: 1, // required

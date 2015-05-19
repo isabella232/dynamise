@@ -4,9 +4,9 @@
   "description": "Library to query DynamoDb",
   "main": "./lib/index.js",
   "contributors":[
-    { name:"Michael Jaser", email:"michael.jaser@peerigon.com" },
-    { name:"Markus Dobmann", email:"markus.dobmann@peerigon.com" },
-    { name:"Marco Egbring", email:"marco.egbring@epha.ch" }
+    { "name":"Michael Jaser", "email":"michael.jaser@peerigon.com" },
+    { "name":"Markus Dobmann", "email":"markus.dobmann@peerigon.com" },
+    { "name":"Marco Egbring", "email":"marco.egbring@epha.ch" }
   ],
   "scripts": {
     "test": "mocha test/*"

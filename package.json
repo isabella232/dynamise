@@ -3,10 +3,19 @@
   "version": "0.1.0",
   "description": "Library to query DynamoDb",
   "main": "./lib/index.js",
-  "contributors":[
-    { "name":"Michael Jaser", "email":"michael.jaser@peerigon.com" },
-    { "name":"Markus Dobmann", "email":"markus.dobmann@peerigon.com" },
-    { "name":"Marco Egbring", "email":"marco.egbring@epha.ch" }
+  "contributors": [
+    {
+      "name": "Michael Jaser",
+      "email": "michael.jaser@peerigon.com"
+    },
+    {
+      "name": "Markus Dobmann",
+      "email": "markus.dobmann@peerigon.com"
+    },
+    {
+      "name": "Marco Egbring",
+      "email": "marco.egbring@epha.ch"
+    }
   ],
   "scripts": {
     "test": "mocha --recursive test/* --timeout 60000",
@@ -24,6 +33,7 @@
   "homepage": "https://github.com/epha/dynamise",
   "dependencies": {
     "aws-sdk": "^2.1.19",
+    "dynamodb-data-types": "^2.0.1",
     "lodash": "^3.6.0"
   },
   "devDependencies": {

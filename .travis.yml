@@ -1,11 +1,8 @@
 language: node_js
 node_js:
-- '0.12'
-- iojs
+  - '0.12'
+  - iojs
 script:
-- npm run dynalite & npm test
+  - npm run dynalite & npm test
 env:
-  awsAccessKey:
-    secure: I2Tg8qH6Z59LSVfbQCI3dCv6Sf4w8bb7beolQuVFYA6pEGE0eJsfBsPNjsUa0Vsgry/uek2osAvHbyfDhn33mS0tixkJPe+k3Hp+aCTTVr/2Y44PW+KxZI4oaCpSN+5gd5H62hoWafQSdpJkGH3iA69jNuoZFSSWHeLo0Q1Iams=
-  awsAccesSecret:
-    secure: TUsMKkUAf4sZ3U1foDOcxTcYYhlaFQZHzok7vaH8COcUhSAoFUbWrZWDL4w2cWuU24X3xiGIBg11APUS/K36CDsLFHc7J403Ix6ApW9NK3ajUGTFIQoFRVHzHmiHvck2thEtNmpdC4uFeqNW9cIcZh5sBynwmhhYa/6Rc199EKE=
+  - AWS_REGION="eu-central-1"

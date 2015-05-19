@@ -118,19 +118,67 @@ See [DynamoDB.batchWriteItem](http://docs.aws.amazon.com/amazondynamodb/latest/A
 
 ##client.multiRead(params) <a id="client-multiread"></a>
 
+```javascript
+var params = {
+  RequestItems: {
+    Example:{ // TableName
+      Keys:[
+        {id:"1", email:"m@epha.ch"},
+        {id:"1", FileId:"d@epha.ch"},
+        // ...
+      ]
+    }
+  }
+};
+
+client.multiRead(params)
+  .then(function (resItems) {
+    // do something
+  };
+```
+
+Returns an object with a TableName attribute containing an array with all read items.
+
 See [DynamoDB.batchGetItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchGetItem.html) for more information.
 
 ##client.table("tableName").read(hash,range) <a id="client-table-read"></a>
 
+```javascript
+client.table("Example").read("1", "m@epha.com")
+  .then(function (resItem) {
+    if(!resItem) {
+      // there is no such item
+    }
+    // do something with the item
+  };
+```
+
+Returns an item with the given hash and range (primary key). If there exists no such item in the database, nothing will be returned.
+
 See [DynamoDB.getItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html).
 
 ##client.table("tableName").patch(item) <a id="client-table-path"></a>
+
+```javascript
+var item = {id: "1", email: "m@epha.com"}
+// assume this item already exists in the database
+
+client.table("Example").patch(item);
+```
 
 Use to update an existing item.
 
 See [DynamoDB.updateItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html) for more information.
 
 ##client.table("tableName").upsert(item) <a id="client-table-upsert"></a>
+
+```javascript
+var item = {id: "1", email: "m@epha.com"};
+
+client.table("Example").upsert(item);
+```
+
+Creates a new item. If the item already exists, it will be fully replaced.
 
 See [DynamoDB.putItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_PutItem.html) for more information.
 

@@ -3,9 +3,9 @@ node_js:
 - '0.12'
 - iojs
 script:
-- npm test
+- npm run dynalite & npm test
 env:
-  awsAccessKey:
-    secure: I2Tg8qH6Z59LSVfbQCI3dCv6Sf4w8bb7beolQuVFYA6pEGE0eJsfBsPNjsUa0Vsgry/uek2osAvHbyfDhn33mS0tixkJPe+k3Hp+aCTTVr/2Y44PW+KxZI4oaCpSN+5gd5H62hoWafQSdpJkGH3iA69jNuoZFSSWHeLo0Q1Iams=
-  awsAccesSecret:
-    secure: TUsMKkUAf4sZ3U1foDOcxTcYYhlaFQZHzok7vaH8COcUhSAoFUbWrZWDL4w2cWuU24X3xiGIBg11APUS/K36CDsLFHc7J403Ix6ApW9NK3ajUGTFIQoFRVHzHmiHvck2thEtNmpdC4uFeqNW9cIcZh5sBynwmhhYa/6Rc199EKE=
+  global:
+  - AWS_REGION="eu-central-1"
+  - secure: CrlVjhgRvhybpoiA7NhsfajifDipIpWeupsjEAv6owfPFHBqteoc+9dtFFYuIsOYDV+FedKXVotJboTyOB86WjWxkZWFPmEYVLt6TGJaxdDmWQt7XykJKNwOhBnL5As8E2b16lJnbL87MF9MsHcHCJcDmA0hGUf1Zpz1z+VjvcI=
+  - secure: Yw/UX35TBZumodNCzFoC4URRDKnshEuHpm3d2BtrrHhv6DwVVYcWJcEg1agRlOpoeVdgjm6yqPiy5V0C33rCbEPjCXAe1CrOw6Fm4pM3Y7YPCyq2NmFEPAMffLCBWNVgnT+2kq6TwfJS4Yooykwzaz7qOSJQ3TkjduKbJdHaYVY=

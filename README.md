@@ -1,5 +1,7 @@
 #Dynamise
 
+[![Build Status](https://travis-ci.org/epha/dynamise.svg?branch=master)](https://travis-ci.org/epha/dynamise)
+
 Dynamise wraps the native DynamoDB methods from `aws-sdk` for node.js in promisifed versions and also provides some sugar syntax to interact with your database.
 
 **Examples:** Look into the example folder to learn about the available functions

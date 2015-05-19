@@ -1,5 +1,7 @@
 #Dynamise
 
+Dynamise wraps the native DynamoDB methods from `aws-sdk` for node.js in promisifed versions and also provides some sugar syntax to interact with your database.
+
 **Examples:** Look into the example folder to learn about the available functions
 
 #API Docs
@@ -11,13 +13,39 @@ var client = db(endpoint);
 
 Most of the methods, unless stated otherwise, return native ES6 Promises. See [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) for details.
 
-##client.listTables(params)
+1. Table operations
+  - [client.**listTables()**](#client-listtables)
+  - [client.**create()**](#client-create)
+  - [client.**read()**](#client-read)
+  - [client.**remove()**](#client-remove)
+  - [client.**status()**](#client-status)
+  - [client.**active()**](#client-active)
+  - [client.**recreate()**](#client-recreate)
+2. Item operations
+  - [client.**multiUpsert()**](#client-multiupsert)
+  - [client.**multiRead()**](#client-multiRead)
+  - [client.table("tableName").**multiUpsert()**](#client-table-multiupsert)
+  - [client.table("tableName").**read()**](#client-table-read)
+  - [client.table("tableName").**patch()**](#client-table-patch)
+  - [client.table("tableName").**upsert()**](#client-table-upsert)
+  - [client.table("tableName").**upload()**](#client-table-upload)
+  - [client.table("tableName").**createUploadStream()**](#client-table-createuploadstream)
+  - [client.table("tableName").**download()**](#client-table-download)
+  - [client.table("tableName").**createDownloadStream()**](#client-table-createdownloadstream)
+  - [client.table("tableName").**remove()**](#client-table-remove)
+  - [client.table("tableName").**find()**](#client-table-find)
+  - [client.table("tableName").**query()**](#client-table-query)
+  - [client.table("tableName").**scan()**](#client-table-scan)
+  - [client.table("tableName").**scanAll()**](#client-table-scanall)
+
+
+##client.listTables(params) <a id="client-listtables"></a>
 
 You will get an array with all the table names associated with the endpoint.
 
 See [DynamoDB.listTables](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ListTables.html) for more information.
 
-##client.create("tableName")
+##client.create("tableName") <a id="client-create"></a>
 
 Adds a new table to the database. If you have `set(tableDefintion)` a table definition already, you can use the tableName as a String parameter. Otherwise you are able to hand over a complete table object.
 
@@ -38,7 +66,7 @@ client.create(tableName);
 
 See [DynamoDB.createTable](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_CreateTable.html) for more information.
 
-##client.read("tableName")
+##client.read("tableName") <a id="client-read"></a>
 
 You will get certain information about the table specified.
 
@@ -48,13 +76,13 @@ See [DynamoDB.describeTable](http://docs.aws.amazon.com/amazondynamodb/latest/AP
 the primary key schema, and any indexes on the table.
 
 
-##client.remove("tableName")
+##client.remove("tableName") <a id="client-remove"></a>
 
 Deletes the table and all of its items.
 
 See [DynamoDB.deleteTable](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DeleteTable.html) for mor information.
 
-##client.status("tableName")
+##client.status("tableName") <a id="client-status"></a>
 
 This function uses `client.read(tableName)` but only fetches the following information:
 
@@ -64,18 +92,18 @@ This function uses `client.read(tableName)` but only fetches the following infor
 
 and if the table is *upgradable* (true|false).
 
-##client.active("tableName")
+##client.active("tableName") <a id="client-active"></a>
 
 Checks if the table state is `ACTIVE` and returns an object with table data. If the table is not active
 it waits for the table to become active.
 
 Uses `client.read(tableName)` and therefore [DynamoDB.describeTable](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DescribeTable.html).
 
-##client.recreate("tableName")
+##client.recreate("tableName") <a id="client-recreate"></a>
 
 Recreates the table if exists or creates the table if not and waits until active.
 
-##client.multiUpsert(tables)
+##client.multiUpsert(tables) <a id="client-multiupsert"></a>
 
 Does an multiUpsert on the tables specified in the tables object. The param `tables` should look like
 
@@ -88,25 +116,73 @@ var tables = {
 
 See [DynamoDB.batchWriteItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchWriteItem.html) for more information.
 
-##client.multiRead(params)
+##client.multiRead(params) <a id="client-multiread"></a>
+
+```javascript
+var params = {
+  RequestItems: {
+    Example:{ // TableName
+      Keys:[
+        {id:"1", email:"m@epha.ch"},
+        {id:"1", FileId:"d@epha.ch"},
+        // ...
+      ]
+    }
+  }
+};
+
+client.multiRead(params)
+  .then(function (resItems) {
+    // do something
+  };
+```
+
+Returns an object with a TableName attribute containing an array with all read items.
 
 See [DynamoDB.batchGetItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchGetItem.html) for more information.
 
-##client.table("tableName").read(hash,range)
+##client.table("tableName").read(hash,range) <a id="client-table-read"></a>
+
+```javascript
+client.table("Example").read("1", "m@epha.com")
+  .then(function (resItem) {
+    if(!resItem) {
+      // there is no such item
+    }
+    // do something with the item
+  };
+```
+
+Returns an item with the given hash and range (primary key). If there exists no such item in the database, nothing will be returned.
 
 See [DynamoDB.getItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html).
 
-##client.table("tableName").patch(item)
+##client.table("tableName").patch(item) <a id="client-table-path"></a>
+
+```javascript
+var item = {id: "1", email: "m@epha.com"}
+// assume this item already exists in the database
+
+client.table("Example").patch(item);
+```
 
 Use to update an existing item.
 
 See [DynamoDB.updateItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html) for more information.
 
-##client.table("tableName").upsert(item)
+##client.table("tableName").upsert(item) <a id="client-table-upsert"></a>
+
+```javascript
+var item = {id: "1", email: "m@epha.com"};
+
+client.table("Example").upsert(item);
+```
+
+Creates a new item. If the item already exists, it will be fully replaced.
 
 See [DynamoDB.putItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_PutItem.html) for more information.
 
-##client.table("tableName").multiUpsert(items)
+##client.table("tableName").multiUpsert(items) <a id="client-table-multiupsert"></a>
 
 Uses the *batchWriteItem* method from AWS.DynamoDB to do an upsert on many items. Note that *batchWriteItem*
 cannot update items. Items which already exist are fully replaced.
@@ -126,7 +202,7 @@ this method is using it either.
 
 See [DynamoDB.batchWriteItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchWriteItem.html) for more information.
 
-##client.table("tableName").upload(items)
+##client.table("tableName").upload(items) <a id="client-table-upload"></a>
 
 Upload an array of items using multiUpsert. Returns a Promise which handles the events internally.
 
@@ -142,25 +218,25 @@ client.table("Example").upload(items).then(...);
 
 **NOTE:** Currently this is only an alias for client.table("tableName").multiUpsert()
 
-##client.table("tableName").createUploadStream()
+##client.table("tableName").createUploadStream() <a id="client-table-createuploadstream"></a>
 
 Returns an instance of `UploadStream` to handle an upload via stream manually.
 
-##client.table("tableName").download()
+##client.table("tableName").download() <a id="client-table-download"></a>
 
 Actually this is an alias for `clieb.table(tableName).scanAll()` - does a complete scan.
 
-##client.table("tableName").createDownloadStream()
+##client.table("tableName").createDownloadStream() <a id="client-table-createdownloadstream"></a>
 
 Returns an instance of `DownloadStream` to handle a download manually.
 
-##client.table("tableName").remove(hash,range)
+##client.table("tableName").remove(hash,range) <a id="client-table-remove"></a>
 
 Deletes a single item in a table.
 
 See [DynamoDB.deleteItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DeleteItem.html) for more information.
 
-##client.table("tableName").find(params)
+##client.table("tableName").find(params) <a id="client-table-find"></a>
 
 Used to find items based on conditions.
 
@@ -239,11 +315,11 @@ You are also allowed to apply the following conditions:
 - `between()`
 - `beginsWith()`
 
-##client.table("tableName").query(params)
+##client.table("tableName").query(params) <a id="client-table-query"></a>
 
 See [DynamoDB.query](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html) for more information.
 
-##client.table("tableName").scan(params)
+##client.table("tableName").scan(params) <a id="client-table-scan"></a>
 
 Returns items of a table.
 
@@ -252,7 +328,7 @@ the scan stops and results are returned to the user as a LastEvaluatedKey value 
 
 See [DynamoDB.scan](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Scan.html) for more information.
 
-##client.table("tableName").scanAll(params)
+##client.table("tableName").scanAll(params) <a id="client-table-scanall"></a>
 
 Uses `client.table("tableName").scan()` to scan all items of a table.
 

@@ -37,8 +37,6 @@ describe("client.status(table)", function () {
       });
   });
 
-
-  //TODO not working with simple diff https://github.com/epha/model/issues/2
   it("should return 'upgradable = false' if the local table definition and table description are equal", function () {
 
     return client.recreate(testTable)

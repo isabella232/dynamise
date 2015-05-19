@@ -3,7 +3,7 @@ node_js:
 - '0.12'
 - iojs
 script:
-- npm test
+- npm run dynalite & npm test
 env:
   awsAccessKey:
     secure: I2Tg8qH6Z59LSVfbQCI3dCv6Sf4w8bb7beolQuVFYA6pEGE0eJsfBsPNjsUa0Vsgry/uek2osAvHbyfDhn33mS0tixkJPe+k3Hp+aCTTVr/2Y44PW+KxZI4oaCpSN+5gd5H62hoWafQSdpJkGH3iA69jNuoZFSSWHeLo0Q1Iams=

@@ -1,6 +1,6 @@
 {
   "name": "dynamise",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Library to query DynamoDb",
   "main": "./lib/index.js",
   "contributors": [

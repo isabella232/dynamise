@@ -10,14 +10,12 @@ var item = {
   Points: "3"
 };
 
-console.log(item)
-
-return client.recreate("Example")
+client.recreate("Example")
   .then(function () {
-    return client.table("Example").create(item)
+    return client.table("Example").create(item);
   })
   .then(function () {
-    return client.table("Example").download()
+    return client.table("Example").download();
   })
   .then(function (res) {
     var obj = res[0];

@@ -5,8 +5,7 @@ var client = db("local");
 
 // set tables
 client.set({
-  Example: require("./tables/Example"),
-  Matrix: require("./tables/Matrix")
+  Example: require("./tables/Example")
 });
 
 module.exports = client;

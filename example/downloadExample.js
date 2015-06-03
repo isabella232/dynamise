@@ -28,7 +28,7 @@ var stringifyStream = new StringifyStream();
 stringifyStream.pipe(process.stdout);
 
 var uploadItems = [];
-for (var i = 0; i < 123; i++) {
+for (var i = 0; i < 12345; i++) {
   uploadItems.push({
     UserId: i.toString(),
     FileId: i + "@epha.com"

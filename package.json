@@ -18,7 +18,7 @@
     }
   ],
   "scripts": {
-    "test": "mocha --recursive test/* --timeout 60000",
+    "test": "node_modules/.bin/mocha --recursive test/* --timeout 60000",
     "dynalite": "node_modules/.bin/dynalite --port 8000 --path ./.tmp"
   },
   "repository": {

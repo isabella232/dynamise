@@ -101,7 +101,6 @@ it waits for the table to become active.
 
 Uses `client.read(tableName)` and therefore [DynamoDB.describeTable](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DescribeTable.html).
 
-## client.recreate("tableName") <a id="client-recreate"></a>
 ## client.update(params) <a id="client-update"></a>
 
 Update the Provisioned Throughput for the given table. You are also able to add and/or update global secondary indexes.

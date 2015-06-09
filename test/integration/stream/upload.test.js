@@ -1,22 +1,25 @@
 "use strict";
 
-var path = require("path"),
-  fs = require("fs"),
-  expect = require("chai").expect,
-  _ = require("lodash"),
-  JSONStream = require("JSONStream");
-
+var expect = require("chai").expect;
+var _ = require("lodash");
+var WritableStream = require("stream").Writable;
 var testTable = require("../../support/testTables").test;
 
 describe("client.table(tableName).createUploadStream()", function () {
 
   var client = require("../../support/testClient");
 
-  beforeEach(function () {
+  // Currently we only have one test who needs the database table, therefore
+  // we do not need to recreate it before each test. If you add more test,
+  // consider this fact.
+  before(function () {
     return client.recreate(testTable);
   });
 
-  // TODO: should return an instance of UploadStream
+  it("should return an instance of UploadStream", function () {
+    var upload = client.table(testTable.TableName).createUploadStream();
+    expect(upload).to.be.instanceof(WritableStream);
+  });
 
   it("should create all items in the database writing to the stream manually", function (done) {
 

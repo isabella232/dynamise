@@ -1,12 +1,10 @@
 "use strict";
 
 var db = require("../lib");
-var client = db("local");
+var client = db("local"),
+  tables = require("./tables");
 
 // set tables
-client.set({
-  Example: require("./tables/Example"),
-  Matrix: require("./tables/Matrix")
-});
+client.set(tables);
 
 module.exports = client;

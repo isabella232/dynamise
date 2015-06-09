@@ -1,6 +1,6 @@
 {
   "name": "dynamise",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "description": "Library to query DynamoDb",
   "main": "./lib/index.js",
   "contributors": [
@@ -21,9 +21,8 @@
     "node": ">= 0.12"
   },
   "scripts": {
-    "test": "mocha --recursive test/* --timeout 60000",
-    "dynalite": "node_modules/.bin/dynalite --port 8000 --path ./.tmp",
-    "lint": "jshint lib && jscs lib"
+    "test": "node_modules/.bin/mocha --recursive test/* --timeout 60000",
+    "dynalite": "node_modules/.bin/dynalite --port 8000 --path ./.tmp"
   },
   "repository": {
     "type": "git",
@@ -44,7 +43,7 @@
     "JSONStream": "^0.10.0",
     "chai": "^2.1.2",
     "debug": "^2.1.3",
-    "dynalite": "^0.12.0",
+    "dynalite": "^0.13.2",
     "jscs": "^1.13.1",
     "jshint": "^2.7.0",
     "mocha": "^2.2.1",

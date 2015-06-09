@@ -1,4 +1,4 @@
-# Dynamise
+#Dynamise
 
 [![Build Status](https://travis-ci.org/epha/dynamise.svg?branch=master)](https://travis-ci.org/epha/dynamise)
 
@@ -25,7 +25,7 @@ Most of the methods, unless stated otherwise, return native ES6 Promises. See [M
   - [client.**recreate()**](#client-recreate)
 2. Item operations
   - [client.**multiUpsert()**](#client-multiupsert)
-  - [client.**multiRead()**](#client-multiRead)
+  - [client.**multiRead()**](#client-multiread)
   - [client.table("tableName").**multiUpsert()**](#client-table-multiupsert)
   - [client.table("tableName").**read()**](#client-table-read)
   - [client.table("tableName").**patch()**](#client-table-patch)
@@ -101,6 +101,7 @@ it waits for the table to become active.
 
 Uses `client.read(tableName)` and therefore [DynamoDB.describeTable](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DescribeTable.html).
 
+## client.recreate("tableName") <a id="client-recreate"></a>
 ## client.update(params) <a id="client-update"></a>
 
 Update the Provisioned Throughput for the given table. You are also able to add and/or update global secondary indexes.
@@ -111,7 +112,7 @@ See [DynamoDB.updateTable](http://docs.aws.amazon.com/amazondynamodb/latest/APIR
 
 Recreates the table if exists or creates the table if not and waits until active.
 
-##client.multiUpsert(tables) <a id="client-multiupsert"></a>
+## client.multiUpsert(tables) <a id="client-multiupsert"></a>
 
 Does an multiUpsert on the tables specified in the tables object. The param `tables` should look like
 
@@ -124,7 +125,7 @@ var tables = {
 
 See [DynamoDB.batchWriteItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchWriteItem.html) for more information.
 
-##client.multiRead(params) <a id="client-multiread"></a>
+## client.multiRead(params) <a id="client-multiread"></a>
 
 ```javascript
 var params = {
@@ -165,7 +166,7 @@ Returns an item with the given hash and range (primary key). If there exists no 
 
 See [DynamoDB.getItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html).
 
-## client.table("tableName").patch(item) <a id="client-table-path"></a>
+## client.table("tableName").patch(item) <a id="client-table-patch"></a>
 
 ```javascript
 var item = {id: "1", email: "m@epha.com"}

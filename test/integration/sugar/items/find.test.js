@@ -4,7 +4,7 @@ var expect = require("chai").expect;
 var testTable = require("../../../support/testTables").test;
 var testTable2 = require("../../../support/testTables").test2;
 
-describe("client.table(tableName).find()", function() {
+describe("client.table(tableName).find()", function () {
 
   var client = require("../../../support/testClient");
 
@@ -12,7 +12,7 @@ describe("client.table(tableName).find()", function() {
   for (var i = 0; i < 18; i++) {
     items.push({id: "0", email: i + "@epha.com"});
 
-    if(i === 1) {
+    if (i === 1) {
       items.push({id: "1", email: "1@epha.com"});
     }
   }
@@ -21,6 +21,16 @@ describe("client.table(tableName).find()", function() {
     return client.recreate(testTable2).then(function () {
       return client.table(testTable2.TableName).upload(items);
     });
+  });
+
+  it("should return an error if KeyConditions is not an Array", function () {
+    var params = {
+      KeyConditions: {}
+    };
+
+    expect(function () {
+      client.table(testTable.TableName).find(params)
+    }).to.throw(Error);
   });
 
   it("should return 1 item using hash condition", function () {

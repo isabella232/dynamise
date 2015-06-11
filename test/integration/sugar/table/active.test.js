@@ -7,9 +7,7 @@ var rewire = require("rewire");
 var active = rewire("../../../../lib/sugar/table/active.js");
 
 describe("client.active(table)", function () {
-
-  var client = require("../../../support/testClient");
-
+  
   it("should throw an error if the maximum of attempts exceeded", function (done) {
     active.__with__({
       read: function () {
@@ -20,7 +18,7 @@ describe("client.active(table)", function () {
     })(function () {
       active.maxRetries = 2;
       active.retryDelay = 50;
-      return active('', '')
+      return active('', '');
     })
       .then(function () {
         done(new Error("should not be resolved"));
@@ -42,7 +40,7 @@ describe("client.active(table)", function () {
     })(function () {
       active.maxRetries = 2;
       active.retryDelay = 50;
-      return active('', '')
+      return active('', '');
     })
       .then(function (res) {
         expect(res).to.have.property("TableStatus");

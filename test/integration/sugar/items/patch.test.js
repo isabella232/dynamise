@@ -3,8 +3,6 @@
 var expect = require("chai").expect;
 var testTable = require("../../../support/testTables").test;
 
-var transform = require("../../../../lib/transform");
-
 describe("client.table(tableName).patch", function () {
 
   var client = require("../../../support/testClient");
@@ -31,8 +29,8 @@ describe("client.table(tableName).patch", function () {
       more: null,
       others: null
     })
-      .then(function (res) {
-        return client.table(testTable.TableName).download()
+      .then(function () {
+        return client.table(testTable.TableName).download();
       })
       .then(function (res) {
         expect(res[0]).to.eql({
@@ -53,8 +51,8 @@ describe("client.table(tableName).patch", function () {
       more: "yes",
       others: "2"
     })
-      .then(function (res) {
-        return client.table(testTable.TableName).download()
+      .then(function () {
+        return client.table(testTable.TableName).download();
       })
       .then(function (res) {
         expect(res[0]).to.eql({
@@ -72,12 +70,12 @@ describe("client.table(tableName).patch", function () {
     return client.table(testTable.TableName).patch({
       id: item.id
     })
-      .then(function (res) {
-        return client.table(testTable.TableName).download()
+      .then(function () {
+        return client.table(testTable.TableName).download();
       })
       .then(function (res) {
         expect(res[0]).to.eql(item);
       });
-  })
+  });
 
 });

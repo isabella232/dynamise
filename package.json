@@ -36,7 +36,7 @@
   "homepage": "https://github.com/epha/dynamise",
   "dependencies": {
     "aws-sdk": "^2.1.19",
-    "dynamodb-data-types": "^2.0.1",
+    "dynamodb-doc": "awslabs/dynamodb-document-js-sdk",
     "lodash": "^3.6.0"
   },
   "devDependencies": {

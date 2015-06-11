@@ -45,6 +45,13 @@ Most of the methods, unless stated otherwise, return native ES6 Promises. See [M
 
 You will get an array with all the table names associated with the endpoint.
 
+```javascript
+client.listTables()
+  .then(function (res) {
+    console.log(res.TableNames); // ['TableOne', 'TableTwo', 'TableThree']
+  });
+```
+
 See [DynamoDB.listTables](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ListTables.html) for more information.
 
 ## client.create("tableName") <a id="client-create"></a>
@@ -52,6 +59,7 @@ See [DynamoDB.listTables](http://docs.aws.amazon.com/amazondynamodb/latest/APIRe
 Adds a new table to the database. If you have `set(tableDefintion)` a table definition already, you can use the tableName as a String parameter. Otherwise you are able to hand over a complete table object.
 
 **Example**
+
 ```javascript
 var tableDefinition = {
     // complete table definition
@@ -72,6 +80,29 @@ See [DynamoDB.createTable](http://docs.aws.amazon.com/amazondynamodb/latest/APIR
 
 You will get certain information about the table specified.
 
+```javascript
+client.read("TableOne")
+  .then(function (res) {
+    console.log(res);
+  });
+```
+
+You response might look like this:
+
+```javascript
+{ AttributeDefinitions: 
+   [ { AttributeName: 'id', AttributeType: 'S' }, ... ],
+  TableName: 'TableOne',
+  ProvisionedThroughput: 
+   { ... },
+  KeySchema: 
+   [ { AttributeName: 'id', KeyType: 'HASH' } ],
+  CreationDateTime: Wed Jun 10 2015 16:47:24 GMT+0200 (CEST),
+  ItemCount: 0,
+  TableSizeBytes: 0,
+  TableStatus: 'ACTIVE' }
+```
+
 See [DynamoDB.describeTable](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DescribeTable.html) for more information.
 
 > Returns information about the table, including the current status of the table, when it was created,
@@ -81,6 +112,15 @@ the primary key schema, and any indexes on the table.
 ## client.remove("tableName") <a id="client-remove"></a>
 
 Deletes the table and all of its items.
+
+```javascript
+// Assume "TableOne" exists
+client.remove("TableOne")
+ .then(function (res) {
+   // res contains a TableDescription object
+   // res.TableStatus === 'DELETING'
+ });
+```
 
 See [DynamoDB.deleteTable](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DeleteTable.html) for mor information.
 
@@ -93,6 +133,16 @@ This function uses `client.read(tableName)` but only fetches the following infor
 - ItemCount (number of items)
 
 and if the table is *upgradable* (true|false).
+
+```javascript
+client.status("TableOne")
+  .then(function (res) {
+    
+  })
+  .catch(function (err) {
+    // throws a ResourceNotFoundException if table does not exist
+  });
+```
 
 ## client.active("tableName") <a id="client-active"></a>
 

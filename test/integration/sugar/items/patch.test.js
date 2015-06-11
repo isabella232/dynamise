@@ -3,8 +3,6 @@
 var expect = require("chai").expect;
 var testTable = require("../../../support/testTables").test;
 
-var transform = require("../../../../lib/transform");
-
 describe("client.table(tableName).patch", function () {
 
   var client = require("../../../support/testClient");
@@ -53,7 +51,7 @@ describe("client.table(tableName).patch", function () {
       more: "yes",
       others: "2"
     })
-      .then(function (res) {
+      .then(function () {
         return client.table(testTable.TableName).download()
       })
       .then(function (res) {

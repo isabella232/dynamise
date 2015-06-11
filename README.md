@@ -259,7 +259,7 @@ client.table("Example")
 
 You are able to pass a *params Object* to `find()` with attributes defined in [DynamoDB.query](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html). We build some sugar functions to make this even easier.
 
-**IMPORTANT NOTICE**: If you pass `KeyConditions` make sure you are using the correct signature related to [dynamodb-doc Condition Object](https://github.com/awslabs/dynamodb-document-js-sdk#condition-object). You have to hand over an array containing condition objects as described in the README of dynamodb-doc.
+**IMPORTANT NOTICE**: If you pass `KeyConditions` make sure you are using the correct signature related to [dynamodb-doc Condition Object](https://github.com/awslabs/dynamodb-document-js-sdk#condition-object). You have to hand over an array containing condition objects as described in the link above.
 
 ### - index()
 

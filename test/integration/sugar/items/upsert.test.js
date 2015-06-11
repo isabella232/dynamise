@@ -34,7 +34,7 @@ describe("client.table(tableName).upsert()", function () {
         return client.table(testTable.TableName).upsert(newItem);
       })
       .then(function () {
-        return client.table(testTable.TableName).download()
+        return client.table(testTable.TableName).download();
       })
       .then(function (res) {
         expect(res).to.be.instanceof(Array);

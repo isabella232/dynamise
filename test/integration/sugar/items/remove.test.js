@@ -16,9 +16,9 @@ describe("client.table(tableName).remove()", function () {
 
     return client.table(testTable.TableName).create(item)
       .then(function () {
-        return client.table(testTable.TableName).remove(item.id, item.email)
+        return client.table(testTable.TableName).remove(item.id, item.email);
       })
-      .then(function (res) {
+      .then(function () {
         return client.table(testTable.TableName).download();
       })
       .then(function (res) {

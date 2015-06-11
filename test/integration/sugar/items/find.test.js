@@ -29,7 +29,7 @@ describe("client.table(tableName).find()", function () {
     };
 
     expect(function () {
-      client.table(testTable.TableName).find(params)
+      client.table(testTable.TableName).find(params);
     }).to.throw(Error);
   });
 
@@ -38,7 +38,7 @@ describe("client.table(tableName).find()", function () {
       .then(function (res) {
         expect(res).to.be.instanceof(Array);
         expect(res).to.have.length(1);
-        expect(items).to.contain(res[0])
+        expect(items).to.contain(res[0]);
       });
   });
 
@@ -80,8 +80,8 @@ describe("client.table(tableName).find()", function () {
       .then(function (res) {
         expect(res).to.be.instanceof(Array);
         expect(res).to.have.length(1);
-      })
-  })
+      });
+  });
 
 
 });

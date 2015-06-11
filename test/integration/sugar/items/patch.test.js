@@ -29,8 +29,8 @@ describe("client.table(tableName).patch", function () {
       more: null,
       others: null
     })
-      .then(function (res) {
-        return client.table(testTable.TableName).download()
+      .then(function () {
+        return client.table(testTable.TableName).download();
       })
       .then(function (res) {
         expect(res[0]).to.eql({
@@ -52,7 +52,7 @@ describe("client.table(tableName).patch", function () {
       others: "2"
     })
       .then(function () {
-        return client.table(testTable.TableName).download()
+        return client.table(testTable.TableName).download();
       })
       .then(function (res) {
         expect(res[0]).to.eql({
@@ -70,12 +70,12 @@ describe("client.table(tableName).patch", function () {
     return client.table(testTable.TableName).patch({
       id: item.id
     })
-      .then(function (res) {
-        return client.table(testTable.TableName).download()
+      .then(function () {
+        return client.table(testTable.TableName).download();
       })
       .then(function (res) {
         expect(res[0]).to.eql(item);
       });
-  })
+  });
 
 });

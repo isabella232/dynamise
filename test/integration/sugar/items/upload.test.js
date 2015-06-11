@@ -2,7 +2,6 @@
 
 var expect = require("chai").expect;
 var _ = require("lodash");
-var db = require("../../../../lib");
 var testTable = require("../../../support/testTables").test;
 
 describe("client.table(tableName).upload()", function () {
@@ -33,8 +32,8 @@ describe("client.table(tableName).upload()", function () {
             .then(function (res) {
               expect(res).not.eql(undefined);
               expect(expectedData).contains(res);
-            })
-        }))
+            });
+        }));
       });
   });
 });

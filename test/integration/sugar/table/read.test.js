@@ -12,7 +12,7 @@ describe("client.read(table)", function () {
 
     return client.remove(testTable)
       .then(function () {
-        return client.read(testTable)
+        return client.read(testTable);
       })
       .catch(function (err) {
         expectTableNonExistingError(err);

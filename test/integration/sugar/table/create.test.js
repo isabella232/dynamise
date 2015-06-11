@@ -20,7 +20,7 @@ describe("client.create(table)", function () {
   it("should fail if table already exists", function () {
     return client.recreate(testTable)
       .then(function () {
-        return client.create(testTable)
+        return client.create(testTable);
       })
       .catch(function (err) {
         expect(err).to.be.instanceof(Error);
@@ -31,7 +31,7 @@ describe("client.create(table)", function () {
   it("should create a table if passed a valid object", function () {
     return delay(500)
       .then(function () {
-        return client.create(testTable)
+        return client.create(testTable);
       })
       .then(function (res) {
         expectValidTableDescription(res.TableDescription, "test");
@@ -41,10 +41,10 @@ describe("client.create(table)", function () {
   it("should create a table if passed a table name and table has been registered before", function () {
     return delay(500)
       .then(function () {
-        return client.create(testTable)
+        return client.create(testTable);
       })
       .then(function (res) {
         expectValidTableDescription(res.TableDescription, "test");
-      })
+      });
   });
 });

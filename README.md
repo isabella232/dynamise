@@ -137,17 +137,51 @@ and if the table is *upgradable* (true|false).
 ```javascript
 client.status("TableOne")
   .then(function (res) {
-    
+    // do something with res
   })
   .catch(function (err) {
     // throws a ResourceNotFoundException if table does not exist
   });
 ```
 
+A response object might look like this:
+
+```javascript
+{ TableSizeBytes: 0,
+  TableStatus: 'ACTIVE',
+  ItemCount: 0,
+  Upgradable: false }
+```
+
 ## client.active("tableName") <a id="client-active"></a>
 
 Checks if the table state is `ACTIVE` and returns an object with table data. If the table is not active
 it waits for the table to become active.
+
+```javascript
+client.active("TableOne")
+  .then(function (res) {
+    if (res.TableName === "TableOne") {
+      console.log("You got the right table!");
+    }
+  });
+```
+
+Your response object might look like this:
+
+```javascript
+{ AttributeDefinitions: 
+   [ { AttributeName: 'id', AttributeType: 'S' },
+  TableName: 'Example',
+  ProvisionedThroughput: 
+   { ... },
+  KeySchema: 
+   [ { AttributeName: 'id', KeyType: 'HASH' } ],
+  CreationDateTime: Thu Jun 11 2015 15:31:42 GMT+0200 (CEST),
+  ItemCount: 0,
+  TableSizeBytes: 0,
+  TableStatus: 'ACTIVE' }
+```
 
 Uses `client.read(tableName)` and therefore [DynamoDB.describeTable](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DescribeTable.html).
 
@@ -176,6 +210,8 @@ See [DynamoDB.batchWriteItem](http://docs.aws.amazon.com/amazondynamodb/latest/A
 
 ## client.multiRead(params) <a id="client-multiread"></a>
 
+Returns an object with a TableName attribute containing an array with all read items.
+
 ```javascript
 var params = {
   RequestItems: {
@@ -194,8 +230,6 @@ client.multiRead(params)
     // do something
   };
 ```
-
-Returns an object with a TableName attribute containing an array with all read items.
 
 See [DynamoDB.batchGetItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchGetItem.html) for more information.
 
@@ -282,7 +316,7 @@ Returns an instance of `UploadStream` to handle an upload via stream manually.
 
 ## client.table("tableName").download() <a id="client-table-download"></a>
 
-Actually this is an alias for `clieb.table(tableName).scanAll()` - does a complete scan.
+Actually this is an alias for [`client.table(tableName).scanAll()`](#client-table-scanall) - does a complete scan.
 
 ## client.table("tableName").createDownloadStream() <a id="client-table-createdownloadstream"></a>
 
@@ -315,8 +349,6 @@ You are able to pass a *params Object* to `find()` with attributes defined in [D
 
 The same as params would include `{ IndexName: "IndexNameValue" }`.
 
-**Example**
-
 ```javascript
 client.table("Example")
     .find()
@@ -331,7 +363,6 @@ DynamoDB has several limitations related to how big a query response can be (mor
 
 Otherwise you would have to evaluate responses `LastEvaluatedKey` attribute youself.
 
-**Example**
 ```javascript
 client.table("Example")
     .find()
@@ -344,7 +375,6 @@ client.table("Example")
 
 This is used to define a hash key where a certain `equals()` condition is applied to.
 
-**Example**
 ```javascript
 client.table("Example")
   .find()
@@ -358,7 +388,6 @@ client.table("Example")
 
 This is used to define a range key where a certain condition is applied to.
 
-**Example**
 ```javascript
 client.table("Example")
   .find()
@@ -386,16 +415,53 @@ Returns items of a table.
 > If the total number of scanned items exceeds the maximum data set size limit of 1 MB,
 the scan stops and results are returned to the user as a LastEvaluatedKey value to continue the scan in a subsequent operation.
 
+```javascript
+client.table("TableOne").scan()
+  .then(function (res) {
+    // do something with the items
+  });
+```
+
+Your response object might look like this:
+
+```javascript
+{ Count: 8467,
+  ScannedCount: 8467,
+  Items: [ ... ], // array with 8467 items
+  // LastEvaluatedKey: 
+}
+```
+
 See [DynamoDB.scan](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Scan.html) for more information.
 
 ## client.table("tableName").scanAll(params) <a id="client-table-scanall"></a>
 
-Uses `client.table("tableName").scan()` to scan all items of a table.
+Uses `client.table("tableName").scan()` to scan all items of a table. You will get an array with all items of a table.
+
+```javascript
+client.table("TableOne").download()
+  .then(function (res) {
+    console.log(res.length) // number of items
+  });
+```
+
+# Error Reporting
+
+A small not on error reporting:
+Please make sure to always use a `.catch()` block when working with the API, otherwise you might miss some errors.
+
+```javascript
+client.table("TableOne").scanAll()
+  .then()
+  .catch(function (err) {
+    // log error, for example
+    // console.trace(err.stack)
+  });
+```
 
 # DynamoDB methods
 Additionally we expose the underlying promisified methods to access the native DynamoDB methods.
 
-**Example**
 ```javascript
 return client.dynamo.getItem(params);
 // return client.dynamo.batchWriteItem(params);

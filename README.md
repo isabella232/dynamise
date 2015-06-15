@@ -406,7 +406,24 @@ You are also allowed to apply the following conditions:
 
 ## client.table("tableName").query(params) <a id="client-table-query"></a>
 
-See [DynamoDB.query](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html) for more information.
+```javascript
+var params = {
+	TableName: "TableOne",
+	KeyConditions: [
+		client.Condition("id", "EQ", "1")
+	]
+}
+
+client.table("TableOne").query(params)
+	.then(function (res) {
+	  // do something with your query
+	});
+```
+
+Your response is an array with all items which fit your query conditions.
+
+To know more about a params object, please
+look at [DynamoDB.query](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html).
 
 ## client.table("tableName").scan(params) <a id="client-table-scan"></a>
 
@@ -447,7 +464,7 @@ client.table("TableOne").download()
 
 # Error Reporting
 
-A small not on error reporting:
+A small note on error reporting:
 Please make sure to always use a `.catch()` block when working with the API, otherwise you might miss some errors.
 
 ```javascript

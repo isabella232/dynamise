@@ -314,6 +314,43 @@ client.table("Example").upload(items).then(...);
 
 Returns an instance of `UploadStream` to handle an upload via stream manually.
 
+```javascript
+var data = [
+  { UserId: "1", FileId: "1", Type: "Just"},
+  { UserId: "2", FileId: "1", Type: "Another"},
+  { UserId: "3", FileId: "1", Type: "Upload"}
+];
+
+var upload = client.table("TableOne").createUploadStream();
+
+upload.on("finish", function () {
+  console.log("finished uploading items");
+});
+
+function write() {
+  var ok = true
+  var currentItem;
+
+  while (ok && (currentItem = data.shift()) !== undefined) {
+
+    if (data.length === 0) {
+      upload.end(currentItem);
+      break;
+    }
+
+    ok = upload.write(currentItem, function () {});
+
+    if (!ok) {
+      upload.once("drain", write);
+      break;
+    }
+  }
+}
+
+write();
+
+```
+
 ## client.table("tableName").download() <a id="client-table-download"></a>
 
 Actually this is an alias for [`client.table(tableName).scanAll()`](#client-table-scanall) - does a complete scan.
@@ -321,6 +358,21 @@ Actually this is an alias for [`client.table(tableName).scanAll()`](#client-tabl
 ## client.table("tableName").createDownloadStream() <a id="client-table-createdownloadstream"></a>
 
 Returns an instance of `DownloadStream` to handle a download manually.
+
+```javascript
+var download = client.table("TableOne").createDownloadStream();
+var downloadedItems = [];
+
+download.on("data", function (chunk) {
+  downloadedItems.push(chunk);
+});
+
+download.on("end", function () {
+  console.log("finished downloading " + downloadedItems.length + " items");
+});
+
+download.on("error", console.error);
+```
 
 ## client.table("tableName").remove(hash,range) <a id="client-table-remove"></a>
 

@@ -511,6 +511,33 @@ Your response object might look like this:
 }
 ```
 
+This method is helpful in case of pagination. Look at the following example:
+
+```javascript
+var limit = 10;
+client.table(tableName).scan({Limit: limit})
+  .then(function (res) {
+    // process res.Items
+    console.log(res.Items);
+
+    // are there still more items to fetch?
+    if (res.LastEvaluatedKey) {
+      console.log("There are still more items to fetch...");
+      
+      // build a new query with LastEvaluatedKey
+      params = {
+        Limit: 10,
+        ExclusiveStartKey: res.LastEvalutedKey
+      }
+      
+      // Now use this params object to query the next 10 items with scan(params)
+    }
+  })
+  .catch(console.error);
+```
+
+**Note**: This is a very basic and simple example. You would write methods like `next()` to fetch the next x items and use it in a loop or wait for a user to query the next items. There is a more complex example in the `example/` directory.
+
 See [DynamoDB.scan](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Scan.html) for more information.
 
 ## client.table("tableName").scanAll(params) <a id="client-table-scanall"></a>

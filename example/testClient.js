@@ -1,8 +1,8 @@
 "use strict";
 
 var db = require("../lib");
-var client = db("local"),
-  tables = require("./tables");
+var client = db("local");
+var tables = require("./tables");
 
 // set tables
 client.set(tables);

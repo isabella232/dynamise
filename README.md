@@ -314,41 +314,52 @@ client.table("Example").upload(items).then(...);
 
 Returns an instance of `UploadStream` to handle an upload via stream manually.
 
+There are mainly two possible scenarios to use the UploadStream
+
+1. download one whole table from a database and upload it to another database
+2. upload data from a JSON file
+
+### Use DownloadStream to upload data to another database using UploadStream
+
 ```javascript
-var data = [
-  { UserId: "1", FileId: "1", Type: "Just"},
-  { UserId: "2", FileId: "1", Type: "Another"},
-  { UserId: "3", FileId: "1", Type: "Upload"}
-];
+var downloadStream = client.table("TableOne").createDownloadStream();
+var uploadStream = client.table("TableTwo").createUploadStream();
 
-var upload = client.table("TableOne").createUploadStream();
+downloadStream.pipe(uploadStream);
 
-upload.on("finish", function () {
+uploadStream.on("finish", function () {
   console.log("finished uploading items");
 });
 
-function write() {
-  var ok = true
-  var currentItem;
+uploadStream.on("error", function (err) {
+  console.trace(err);
+});
 
-  while (ok && (currentItem = data.shift()) !== undefined) {
+```
 
-    if (data.length === 0) {
-      upload.end(currentItem);
-      break;
-    }
+### Upoad data from a JSON file using UploadStream
 
-    ok = upload.write(currentItem, function () {});
+In this case you will need [JSONStream](https://github.com/dominictarr/JSONStream) to pipe data accordingly to UploadStream.
 
-    if (!ok) {
-      upload.once("drain", write);
-      break;
-    }
-  }
-}
+```javascript
+var fs = require("fs");
+var path = require("path");
+var jsonStream = require("JSONStream").parse("*");
+var uploadStream = client.table("Example").createUploadStream();
 
-write();
+// Read data from a file using fs.createReadStream()
+var jsonFileStream = fs.createReadStream(path.resolve(__dirname, "data.json"));
 
+// And now pipe anything to uploadStream
+jsonFileStream.pipe(jsonStream).pipe(uploadStream);
+
+uploadStream.on("finish", function () {
+  console.log("finished uploading items");
+});
+
+uploadStream.on("error", function (err) {
+  console.error(err);
+});
 ```
 
 ## client.table("tableName").download() <a id="client-table-download"></a>
@@ -384,7 +395,6 @@ See [DynamoDB.deleteItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIRe
 
 Used to find items based on conditions.
 
-**Example**
 ```javascript
 client.table("Example")
       .find(params) // params is optional
@@ -500,6 +510,33 @@ Your response object might look like this:
   // LastEvaluatedKey: 
 }
 ```
+
+This method is helpful in case of pagination. Look at the following example:
+
+```javascript
+var limit = 10;
+client.table(tableName).scan({Limit: limit})
+  .then(function (res) {
+    // process res.Items
+    console.log(res.Items);
+
+    // are there still more items to fetch?
+    if (res.LastEvaluatedKey) {
+      console.log("There are still more items to fetch...");
+      
+      // build a new query with LastEvaluatedKey
+      params = {
+        Limit: 10,
+        ExclusiveStartKey: res.LastEvalutedKey
+      }
+      
+      // Now use this params object to query the next 10 items with scan(params)
+    }
+  })
+  .catch(console.error);
+```
+
+**Note**: This is a very basic and simple example. You would write methods like `next()` to fetch the next x items and use it in a loop or wait for a user to query the next items. There is a more complex example in the `example/` directory.
 
 See [DynamoDB.scan](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Scan.html) for more information.
 

@@ -1,19 +1,19 @@
 "use strict";
 
+var fs = require("fs");
+var path = require("path");
 var expect = require("chai").expect;
 var _ = require("lodash");
 var WritableStream = require("stream").Writable;
 var testTable = require("../../support/testTables").test;
+var testTable2 = require("../../support/testTables").test2;
 
 describe("client.table(tableName).createUploadStream()", function () {
 
   var client = require("../../support/testClient");
 
-  // Currently we only have one test who needs the database table, therefore
-  // we do not need to recreate it before each test. If you add more test,
-  // consider this fact.
-  before(function () {
-    return client.recreate(testTable);
+  beforeEach(function () {
+    return Promise.all([client.recreate(testTable), client.recreate(testTable2)]);
   });
 
   it("should return an instance of UploadStream", function () {
@@ -54,8 +54,8 @@ describe("client.table(tableName).createUploadStream()", function () {
     write();
 
     function write() {
-      var ok = true,
-        currentItem;
+      var ok = true;
+      var currentItem;
 
       while (ok && (currentItem = data.shift()) !== undefined) {
 
@@ -73,5 +73,58 @@ describe("client.table(tableName).createUploadStream()", function () {
         }
       }
     }
+  });
+
+  it("should write all items to the table using a JSONStream", function () {
+    var dataFile = path.resolve(__dirname, '..', '..', 'support', 'testData.json');
+
+    var dataStream = fs.createReadStream(dataFile);
+    var data = require(dataFile);
+    var jsonStream = require("JSONStream").parse("*");
+    var uploadStream = client.table(testTable.TableName).createUploadStream();
+
+    return new Promise(function (resolve, reject) {
+      dataStream.pipe(jsonStream).pipe(uploadStream);
+
+      uploadStream.on("finish", function () {
+        client.table(testTable.TableName).download()
+          .then(function (res) {
+            res.map(function (obj) {
+              expect(data).to.contain(obj);
+            });
+            resolve();
+          });
+      });
+
+      uploadStream.on("error", reject);
+    });
+  });
+
+  it("should transfer all data from one table to another using download/upload stream", function () {
+    var downloadStream = client.table(testTable.TableName).createDownloadStream();
+    var uploadStream = client.table(testTable2.TableName).createUploadStream();
+
+    var items = [];
+    for (var i = 1; i < 101; i++) {
+      items.push({id: "" + i, email: i + "@epha.com"});
+    }
+
+    return client.table(testTable.TableName).upload(items)
+      .then(function () {
+        return new Promise(function (resolve, reject) {
+          downloadStream.pipe(uploadStream);
+
+          uploadStream.on("finish", resolve);
+          uploadStream.on("error", reject);
+        });
+      })
+      .then(function () {
+        return client.table(testTable2.TableName).download()
+      })
+      .then(function (res) {
+        items.map(function (obj) {
+          expect(res).to.contain(obj);
+        });
+      });
   });
 });

@@ -5,7 +5,7 @@ var testTable = require("../../support/testTables").test;
 
 var ReadableStream = require("stream").Readable;
 
-describe("client.table(tableName).createUploadStream()", function () {
+describe("client.table(tableName).createDownloadStream()", function () {
 
   var client = require("../../support/testClient");
 

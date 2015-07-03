@@ -66,6 +66,27 @@ describe("client.table(tableName).patch", function () {
       });
   });
 
+  it("should add an attribute (ACTION: PUT", function () {
+    return client.table(testTable.TableName).patch({
+      id: "1",
+      rule: "users"
+    })
+      .then(function () {
+        return client.table(testTable.TableName).download();
+      })
+      .then(function (res) {
+        expect(res[0]).to.eql({
+          id: item.id,
+          email: "m@epha.com",
+          role: "admin",
+          points: "3",
+          more: "no",
+          others: "1",
+          rule: "users"
+        });
+      });
+  });
+
   it("should do nothing if no action is specified", function () {
     return client.table(testTable.TableName).patch({
       id: item.id

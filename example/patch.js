@@ -18,12 +18,15 @@ client.recreate("Example")
     return client.table("Example").download();
   })
   .then(function (res) {
+    console.log(res);
+
     var obj = res[0];
     return client.table("Example").patch({
       UserId: obj.UserId,
       FileId: obj.FileId,
       Email: "d@epha.com",
-      Points: null
+      Points: null,
+      Another: "value"
     });
   })
   .then(function () {

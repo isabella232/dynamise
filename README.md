@@ -251,14 +251,28 @@ See [DynamoDB.getItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIRefer
 
 ## client.table("tableName").patch(item) <a id="client-table-patch"></a>
 
+With `patch()` you can do the following operations on your item:
+- Add new attributes
+- Delete attributes
+- Update attributes
+
 ```javascript
-var item = {id: "1", email: "m@epha.com"}
-// assume this item already exists in the database
+// the following item does already exist in the database
+var item = {
+  id: "1", // hash
+  email: "m@epha.com",
+  name: "markus",
+  points: "3",
+  role: "user"
+}
 
-client.table("Example").patch(item);
+client.table("Example").patch({
+  id: "1",  // hash and/or range keys cannot be updated
+  points: null, // will be removed
+  role: "admin", // will be updated
+  rule: "user-management" // will be added
+});
 ```
-
-Use to update an existing item.
 
 See [DynamoDB.updateItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html) for more information.
 

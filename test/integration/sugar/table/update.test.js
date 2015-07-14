@@ -15,8 +15,8 @@ describe("client.update(params)", function () {
     var params = {
       TableName: testTable.TableName,
       ProvisionedThroughput: {
-        ReadCapacityUnits: 5,
-        WriteCapacityUnits: 5
+        ReadCapacityUnits: 4,
+        WriteCapacityUnits: 4
       }
     };
 

@@ -276,9 +276,6 @@ client.table("Example").patch({
 });
 ```
 
-__Note:__ Due to a bug in the current npm version of [dynamodb-doc](https://www.npmjs.com/package/dynamodb-doc) it is not possible to delete keys by setting them to null.
- Hopefully the new version will be released soon. See [https://github.com/awslabs/dynamodb-document-js-sdk](https://github.com/awslabs/dynamodb-document-js-sdk) for further information.
-
 See [DynamoDB.updateItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html) for more information.
 
 ## client.table("tableName").upsert(item) <a id="client-table-upsert"></a>

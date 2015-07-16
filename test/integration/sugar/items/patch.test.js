@@ -23,7 +23,7 @@ describe("client.table(tableName).patch", function () {
       });
   });
 
-  it.skip("should delete an attribute with value 'null' (Action: DELETE)", function () {
+  it("should delete an attribute with value 'null' (Action: DELETE)", function () {
     return client.table(testTable.TableName).patch({
       id: item.id,
       more: null,

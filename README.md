@@ -247,6 +247,8 @@ client.table("Example").read("1", "m@epha.com")
 
 Returns an item with the given hash and range (primary key). If there exists no such item in the database, nothing will be returned.
 
+
+
 See [DynamoDB.getItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html).
 
 ## client.table("tableName").patch(item) <a id="client-table-patch"></a>
@@ -273,6 +275,9 @@ client.table("Example").patch({
   rule: "user-management" // will be added
 });
 ```
+
+__Note:__ Due to a bug in the current npm version of [dynamodb-doc](https://www.npmjs.com/package/dynamodb-doc) it is not possible to delete keys by setting them to null.
+ Hopefully the new version will be released soon. See [https://github.com/awslabs/dynamodb-document-js-sdk](https://github.com/awslabs/dynamodb-document-js-sdk) for further information.
 
 See [DynamoDB.updateItem](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html) for more information.
 

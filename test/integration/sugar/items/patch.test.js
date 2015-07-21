@@ -99,4 +99,22 @@ describe("client.table(tableName).patch", function () {
       });
   });
 
+  it("should return the modified item", function () {
+    return client.table(testTable.TableName).patch({
+      id: item.id,
+      email: "mo@epha.com",
+      role: "guest"
+    })
+      .then(function (res) {
+        expect(res).to.eql({
+          id: item.id,
+          email: "mo@epha.com",
+          role: "guest",
+          points: item.points,
+          more: item.more,
+          others: item.others
+        });
+      });
+  });
+
 });

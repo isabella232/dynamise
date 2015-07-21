@@ -29,7 +29,8 @@ client.recreate("Example")
       Another: "value"
     });
   })
-  .then(function () {
+  .then(function (res) {
+    console.log(res);
     return client.table("Example").download();
   })
   .then(function (res) {

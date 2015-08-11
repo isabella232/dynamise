@@ -58,7 +58,8 @@ e.g.
   hostname: 'localhost',
   pathname: '/',
   path: '/',
-  href: 'http://localhost:8000/' }
+  href: 'http://localhost:8000/',
+  title: 'local' }
 */
 ```
 

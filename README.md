@@ -39,7 +39,28 @@ Most of the methods, unless stated otherwise, return native ES6 Promises. See [M
   - [client.table("tableName").**query()**](#client-table-query)
   - [client.table("tableName").**scan()**](#client-table-scan)
   - [client.table("tableName").**scanAll()**](#client-table-scanall)
+3. Others
+  - [client.**endpoint()**](#client-endpoint)
 
+## client.endpoint() <a id="client-endpoint"></a>
+
+Return the actual endpoint
+
+```javascript
+var endpoint = client.endpoint();
+
+/*
+e.g.
+
+{ protocol: 'http:',
+  host: 'localhost:8000',
+  port: 8000,
+  hostname: 'localhost',
+  pathname: '/',
+  path: '/',
+  href: 'http://localhost:8000/' }
+*/
+```
 
 ## client.listTables(params) <a id="client-listtables"></a>
 
@@ -90,12 +111,12 @@ client.read("TableOne")
 You response might look like this:
 
 ```javascript
-{ AttributeDefinitions: 
+{ AttributeDefinitions:
    [ { AttributeName: 'id', AttributeType: 'S' }, ... ],
   TableName: 'TableOne',
-  ProvisionedThroughput: 
+  ProvisionedThroughput:
    { ... },
-  KeySchema: 
+  KeySchema:
    [ { AttributeName: 'id', KeyType: 'HASH' } ],
   CreationDateTime: Wed Jun 10 2015 16:47:24 GMT+0200 (CEST),
   ItemCount: 0,
@@ -170,12 +191,12 @@ client.active("TableOne")
 Your response object might look like this:
 
 ```javascript
-{ AttributeDefinitions: 
+{ AttributeDefinitions:
    [ { AttributeName: 'id', AttributeType: 'S' },
   TableName: 'Example',
-  ProvisionedThroughput: 
+  ProvisionedThroughput:
    { ... },
-  KeySchema: 
+  KeySchema:
    [ { AttributeName: 'id', KeyType: 'HASH' } ],
   CreationDateTime: Thu Jun 11 2015 15:31:42 GMT+0200 (CEST),
   ItemCount: 0,
@@ -523,7 +544,7 @@ Your response object might look like this:
 { Count: 8467,
   ScannedCount: 8467,
   Items: [ ... ], // array with 8467 items
-  // LastEvaluatedKey: 
+  // LastEvaluatedKey:
 }
 ```
 
@@ -539,13 +560,13 @@ client.table(tableName).scan({Limit: limit})
     // are there still more items to fetch?
     if (res.LastEvaluatedKey) {
       console.log("There are still more items to fetch...");
-      
+
       // build a new query with LastEvaluatedKey
       params = {
         Limit: 10,
         ExclusiveStartKey: res.LastEvalutedKey
       }
-      
+
       // Now use this params object to query the next 10 items with scan(params)
     }
   })

@@ -6,7 +6,7 @@ describe("client.endpoint()", function () {
   var endpoint;
   var client = require("../../../lib")("local");
 
-  it.only("should return the 'local' endpoint", function () {
+  it("should return the 'local' endpoint", function () {
     endpoint = client.endpoint();
 
     expect(endpoint).to.be.an('object');

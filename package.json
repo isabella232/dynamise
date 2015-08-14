@@ -21,8 +21,7 @@
     "node": ">= 0.12"
   },
   "scripts": {
-    "test": "node_modules/.bin/mocha --recursive test/* --timeout 60000",
-    "dynalite": "node_modules/.bin/dynalite --port 8000 --path ./.tmp"
+    "test": "mocha --recursive test/* --timeout 60000"
   },
   "repository": {
     "type": "git",
@@ -42,7 +41,6 @@
   "devDependencies": {
     "chai": "^3.0.0",
     "debug": "^2.1.3",
-    "dynalite": "^0.14.0",
     "jscs": "^1.13.1",
     "mocha": "^2.2.1",
     "JSONStream": "^1.0.4",

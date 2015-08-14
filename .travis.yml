@@ -3,7 +3,7 @@ node_js:
 - '0.12'
 - iojs
 script:
-- npm run dynalite & npm test
+- npm test
 env:
   global:
   - AWS_REGION="eu-central-1"

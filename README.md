@@ -610,3 +610,7 @@ Additionally we expose the underlying promisified methods to access the native D
 return client.dynamo.getItem(params);
 // return client.dynamo.batchWriteItem(params);
 ```
+
+## Sponsors
+
+[<img src="https://assets.peerigon.com/peerigon/logo/peerigon-logo-flat-spinat.png" width="150" />](https://peerigon.com)
